@@ -233,17 +233,66 @@ h1 {
   padding: 24px;
 }
 
+/* ── Sun ── */
+
 .sun {
   position: absolute;
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   right: 28px;
-  top: 28px;
-  background: radial-gradient(circle at 30% 30%, #fff3cf, #ffb071 60%, #ff8a5b 100%);
+  top: 20px;
+  background: radial-gradient(circle at 35% 35%, #fffbe6, #ffd97a 40%, #ffb071 70%, #ff8a5b 100%);
   opacity: 0.95;
-  box-shadow: 0 0 80px rgba(255, 138, 91, 0.42);
+  box-shadow: 0 0 100px rgba(255, 200, 100, 0.5), 0 0 40px rgba(255, 138, 91, 0.3);
 }
+
+/* ── Clouds ── */
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  height: 20px;
+  will-change: transform;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: inherit;
+}
+
+.cloud-1 {
+  width: 70px;
+  top: 40px;
+  left: -80px;
+}
+.cloud-1::before { width: 36px; height: 28px; top: -14px; left: 14px; }
+.cloud-1::after  { width: 24px; height: 18px; top: -8px;  left: 40px; }
+
+.cloud-2 {
+  width: 90px;
+  top: 80px;
+  left: -100px;
+  opacity: 0.55;
+}
+.cloud-2::before { width: 44px; height: 32px; top: -16px; left: 18px; }
+.cloud-2::after  { width: 30px; height: 22px; top: -10px; left: 52px; }
+
+.cloud-3 {
+  width: 55px;
+  top: 28px;
+  left: -60px;
+  opacity: 0.45;
+  height: 16px;
+}
+.cloud-3::before { width: 28px; height: 22px; top: -12px; left: 10px; }
+.cloud-3::after  { width: 18px; height: 14px; top: -6px;  left: 30px; }
+
+/* ── Ocean ── */
 
 .court-scene {
   position: absolute;
@@ -254,6 +303,32 @@ h1 {
     linear-gradient(180deg, #8fd5e5 0%, #6dc1d8 25%, #1f8daa 55%, #0f5c73 100%);
   clip-path: ellipse(120% 90% at 50% 100%);
 }
+
+/* ── Waves ── */
+
+.wave {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  height: 26px;
+  border-radius: 50% 50% 0 0;
+  will-change: transform;
+}
+
+.wave-1 {
+  bottom: 33%;
+  background: rgba(110, 200, 220, 0.35);
+}
+.wave-2 {
+  bottom: 31%;
+  background: rgba(80, 180, 210, 0.25);
+}
+.wave-3 {
+  bottom: 29%;
+  background: rgba(60, 160, 200, 0.18);
+}
+
+/* ── Sand ── */
 
 .sand {
   position: absolute;
@@ -270,6 +345,8 @@ h1 {
   box-shadow: inset 0 14px 30px rgba(255,255,255,0.2);
 }
 
+/* ── Net + Poles ── */
+
 .net {
   position: absolute;
   left: 50%;
@@ -282,9 +359,9 @@ h1 {
 .pole {
   position: absolute;
   bottom: 0;
-  width: 8px;
-  height: 138px;
-  background: #2e3f47;
+  width: 7px;
+  height: 130px;
+  background: linear-gradient(180deg, #3d5059, #2e3f47);
   border-radius: 99px;
 }
 
@@ -293,17 +370,31 @@ h1 {
 
 .mesh {
   position: absolute;
-  left: 8px;
-  right: 8px;
+  left: 7px;
+  right: 7px;
   top: 26px;
-  height: 70px;
-  border-top: 6px solid #ffffff;
+  height: 68px;
+  border-top: 5px solid #ffffff;
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.72) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255,255,255,0.68) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.45) 1px, transparent 1px);
   background-size: 14px 14px;
   opacity: 0.85;
   border-radius: 2px;
+}
+
+/* ── Volleyball ── */
+
+.volleyball {
+  position: absolute;
+  left: 50%;
+  bottom: 34%;
+  width: 18px;
+  height: 18px;
+  margin-left: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff, #f5e6c4 60%, #e8cf8a 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 /* ── Palm Trees ── */
@@ -331,6 +422,15 @@ h1 {
   transform-origin: bottom center;
 }
 
+.leaves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 60px 120px;
+}
+
 .leaf {
   position: absolute;
   left: 12px;
@@ -346,7 +446,52 @@ h1 {
 .leaf:nth-child(3) { transform: rotate(-12deg); top: 38px; }
 .leaf:nth-child(4) { transform: rotate(14deg); top: 48px; }
 .leaf:nth-child(5) { transform: rotate(38deg); top: 60px; }
-.leaf:nth-child(6) { transform: rotate(68deg); top: 74px; left: 22px; }
+
+/* ── Animations (motion-safe only) ── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .sun {
+    animation: sun-glow 4s ease-in-out infinite;
+  }
+
+  .cloud-1 { animation: cloud-drift 28s linear infinite; }
+  .cloud-2 { animation: cloud-drift 36s linear infinite; animation-delay: -12s; }
+  .cloud-3 { animation: cloud-drift 24s linear infinite; animation-delay: -6s; }
+
+  .wave-1 { animation: wave-roll 5s ease-in-out infinite; }
+  .wave-2 { animation: wave-roll 6s ease-in-out infinite; animation-delay: -1.5s; }
+  .wave-3 { animation: wave-roll 7s ease-in-out infinite; animation-delay: -3s; }
+
+  .palm.left .leaves  { animation: palm-sway 4s ease-in-out infinite; }
+  .palm.right .leaves { animation: palm-sway 4.5s ease-in-out infinite; animation-delay: -1s; }
+
+  .volleyball { animation: ball-bounce 2s ease-in-out infinite; }
+}
+
+@keyframes sun-glow {
+  0%, 100% { opacity: 0.95; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.04); }
+}
+
+@keyframes cloud-drift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 200px)); }
+}
+
+@keyframes wave-roll {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(14px); }
+}
+
+@keyframes palm-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+@keyframes ball-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
 
 .glass-card {
   position: absolute;
@@ -1381,6 +1526,63 @@ footer {
 .weather-location {
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.weather-forecast {
+  display: flex;
+  gap: 2px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(8, 57, 72, 0.08);
+}
+
+[data-theme="dark"] .weather-forecast {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.weather-forecast-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border-radius: 10px;
+  min-width: 42px;
+}
+
+.weather-forecast-day--today {
+  background: rgba(30, 107, 72, 0.08);
+}
+
+[data-theme="dark"] .weather-forecast-day--today {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.weather-forecast-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.weather-forecast-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.weather-forecast-temps {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.weather-forecast-temps strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+[data-theme="dark"] .weather-forecast-temps strong {
+  color: #f0ede8;
 }
 
 /* ── Loading Screen ── */
@@ -2576,5 +2778,79 @@ select.portal-form-input {
 
   .announcement-item {
     padding: 14px 16px;
+  }
+}
+
+/* ── Rules Page ── */
+
+.rules-page {
+  padding: 42px 0 60px;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.rules-section {
+  padding: 28px 24px;
+}
+
+.rules-section h3 {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  color: var(--ocean-dark);
+  font-weight: 700;
+}
+
+[data-theme="dark"] .rules-section h3 {
+  color: #f0ede8;
+}
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rules-list li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.rules-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ocean), var(--palm));
+}
+
+.rules-section--house {
+  grid-column: 1 / -1;
+  border-top: 3px solid var(--sunset);
+}
+
+.rules-section--house .rules-list li::before {
+  background: linear-gradient(135deg, var(--sunset), #e0704a);
+}
+
+@media (max-width: 720px) {
+  .rules-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rules-section {
+    padding: 22px 18px;
   }
 }
