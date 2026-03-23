@@ -37,6 +37,7 @@ export default function Navbar() {
           <Link href="/#experience" onClick={closeMenu}>Experience</Link>
           <Link href="/contact" onClick={closeMenu}>Contact</Link>
           <Link href="/find-us" onClick={closeMenu}>Find Us</Link>
+          <Link href="/faq" onClick={closeMenu}>FAQ</Link>
           <Link href="/rules" onClick={closeMenu}>Rules</Link>
           <Link className="btn btn-primary nav-book-mobile" href="/#booking" onClick={closeMenu}>
             Book a Session

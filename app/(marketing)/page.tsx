@@ -10,7 +10,6 @@ import Events from "@/components/Events";
 import Pricing from "@/components/Pricing";
 import BookingCalendly from "@/components/BookingCalendly";
 import Schedule from "@/components/Schedule";
-import FAQ from "@/components/FAQ";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
@@ -33,7 +32,6 @@ export default function Home() {
       <ScrollReveal><Pricing /></ScrollReveal>
       <ScrollReveal><Schedule /></ScrollReveal>
       <ScrollReveal><BookingCalendly /></ScrollReveal>
-      <ScrollReveal><FAQ /></ScrollReveal>
     </>
   );
 }

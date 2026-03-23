@@ -8,6 +8,8 @@ export default function BeachScene() {
       <div className="cloud cloud-1"></div>
       <div className="cloud cloud-2"></div>
       <div className="cloud cloud-3"></div>
+      <div className="cloud cloud-4"></div>
+      <div className="cloud cloud-5"></div>
 
       {/* Ocean waves */}
       <div className="court-scene"></div>
@@ -27,12 +29,16 @@ export default function BeachScene() {
           <div className="leaf"></div>
           <div className="leaf"></div>
           <div className="leaf"></div>
+          <div className="leaf"></div>
+          <div className="leaf"></div>
         </div>
       </div>
 
       <div className="palm right">
         <div className="trunk"></div>
         <div className="leaves">
+          <div className="leaf"></div>
+          <div className="leaf"></div>
           <div className="leaf"></div>
           <div className="leaf"></div>
           <div className="leaf"></div>
@@ -46,18 +52,6 @@ export default function BeachScene() {
         <div className="pole left"></div>
         <div className="mesh"></div>
         <div className="pole right"></div>
-      </div>
-
-      {/* Volleyball */}
-      <div className="volleyball"></div>
-
-      {/* Glass card overlay */}
-      <div className="glass-card">
-        <small>Signature vibe</small>
-        <strong>
-          A private court with beach energy and backyard charm.
-        </strong>
-        <span>Train like you&apos;re on vacation — without leaving Fairfax.</span>
       </div>
     </div>
   );

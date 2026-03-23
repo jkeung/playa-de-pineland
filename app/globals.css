@@ -292,6 +292,26 @@ h1 {
 .cloud-3::before { width: 28px; height: 22px; top: -12px; left: 10px; }
 .cloud-3::after  { width: 18px; height: 14px; top: -6px;  left: 30px; }
 
+.cloud-4 {
+  width: 60px;
+  top: 110px;
+  left: -70px;
+  opacity: 0.4;
+  height: 14px;
+}
+.cloud-4::before { width: 30px; height: 20px; top: -10px; left: 12px; }
+.cloud-4::after  { width: 20px; height: 14px; top: -6px;  left: 34px; }
+
+.cloud-5 {
+  width: 80px;
+  top: 60px;
+  left: -90px;
+  opacity: 0.35;
+  height: 18px;
+}
+.cloud-5::before { width: 38px; height: 26px; top: -12px; left: 16px; }
+.cloud-5::after  { width: 26px; height: 18px; top: -8px;  left: 46px; }
+
 /* ── Ocean ── */
 
 .court-scene {
@@ -351,15 +371,15 @@ h1 {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 22%;
-  width: 72%;
-  height: 120px;
+  bottom: 6%;
+  width: 50%;
+  height: 130px;
 }
 
 .pole {
   position: absolute;
   bottom: 0;
-  width: 7px;
+  width: 6px;
   height: 130px;
   background: linear-gradient(180deg, #3d5059, #2e3f47);
   border-radius: 99px;
@@ -370,53 +390,40 @@ h1 {
 
 .mesh {
   position: absolute;
-  left: 7px;
-  right: 7px;
-  top: 26px;
-  height: 68px;
-  border-top: 5px solid #ffffff;
+  left: 8px;
+  right: 8px;
+  top: 0;
+  height: 60px;
+  border-top: 6px solid #ffffff;
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.68) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.45) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255,255,255,0.72) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px);
   background-size: 14px 14px;
   opacity: 0.85;
   border-radius: 2px;
-}
-
-/* ── Volleyball ── */
-
-.volleyball {
-  position: absolute;
-  left: 50%;
-  bottom: 34%;
-  width: 18px;
-  height: 18px;
-  margin-left: 30px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #fff, #f5e6c4 60%, #e8cf8a 100%);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 /* ── Palm Trees ── */
 
 .palm {
   position: absolute;
-  bottom: 21%;
-  width: 120px;
-  height: 180px;
+  bottom: 14%;
+  width: 110px;
+  height: 160px;
   opacity: 0.95;
+  z-index: 2;
 }
 
-.palm.left { left: 30px; }
-.palm.right { right: 26px; transform: scaleX(-1); }
+.palm.left { left: 10px; }
+.palm.right { right: 6px; transform: scaleX(-1); }
 
 .trunk {
   position: absolute;
   bottom: 0;
-  left: 56px;
-  width: 12px;
-  height: 120px;
-  background: linear-gradient(180deg, #8c5b32, #5d371f);
+  left: 50px;
+  width: 11px;
+  height: 110px;
+  background: linear-gradient(180deg, #a06b3a, #8c5b32 30%, #5d371f);
   border-radius: 99px;
   transform: rotate(8deg);
   transform-origin: bottom center;
@@ -428,24 +435,29 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  transform-origin: 60px 120px;
+  transform-origin: 55px 110px;
 }
 
 .leaf {
   position: absolute;
-  left: 12px;
-  top: 26px;
-  width: 82px;
-  height: 18px;
-  background: linear-gradient(90deg, #2d7b5f, #1f5f4a);
-  border-radius: 999px 30px 999px 30px;
-  transform-origin: 90% 50%;
+  left: 6px;
+  top: 20px;
+  width: 80px;
+  height: 14px;
+  background: linear-gradient(90deg, #3a9d7a, #2d7b5f 40%, #1a5c42);
+  border-radius: 60% 100% 60% 100%;
+  transform-origin: 95% 50%;
+  opacity: 0.92;
 }
 
-.leaf:nth-child(2) { transform: rotate(-38deg); top: 30px; }
-.leaf:nth-child(3) { transform: rotate(-12deg); top: 38px; }
-.leaf:nth-child(4) { transform: rotate(14deg); top: 48px; }
-.leaf:nth-child(5) { transform: rotate(38deg); top: 60px; }
+/* Fan the leaves out naturally */
+.leaf:nth-child(1) { transform: rotate(-55deg); top: 18px; left: 2px; }
+.leaf:nth-child(2) { transform: rotate(-32deg); top: 22px; }
+.leaf:nth-child(3) { transform: rotate(-10deg); top: 28px; }
+.leaf:nth-child(4) { transform: rotate(10deg); top: 36px; }
+.leaf:nth-child(5) { transform: rotate(30deg); top: 46px; }
+.leaf:nth-child(6) { transform: rotate(52deg); top: 56px; left: 12px; }
+.leaf:nth-child(7) { transform: rotate(72deg); top: 68px; left: 20px; width: 60px; opacity: 0.7; }
 
 /* ── Animations (motion-safe only) ── */
 
@@ -457,6 +469,8 @@ h1 {
   .cloud-1 { animation: cloud-drift 28s linear infinite; }
   .cloud-2 { animation: cloud-drift 36s linear infinite; animation-delay: -12s; }
   .cloud-3 { animation: cloud-drift 24s linear infinite; animation-delay: -6s; }
+  .cloud-4 { animation: cloud-drift 32s linear infinite; animation-delay: -18s; }
+  .cloud-5 { animation: cloud-drift 40s linear infinite; animation-delay: -8s; }
 
   .wave-1 { animation: wave-roll 5s ease-in-out infinite; }
   .wave-2 { animation: wave-roll 6s ease-in-out infinite; animation-delay: -1.5s; }
@@ -464,8 +478,6 @@ h1 {
 
   .palm.left .leaves  { animation: palm-sway 4s ease-in-out infinite; }
   .palm.right .leaves { animation: palm-sway 4.5s ease-in-out infinite; animation-delay: -1s; }
-
-  .volleyball { animation: ball-bounce 2s ease-in-out infinite; }
 }
 
 @keyframes sun-glow {
@@ -486,11 +498,6 @@ h1 {
 @keyframes palm-sway {
   0%, 100% { transform: rotate(0deg); }
   50%      { transform: rotate(3deg); }
-}
-
-@keyframes ball-bounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
 }
 
 .glass-card {
@@ -1812,6 +1819,10 @@ footer {
 
 .progression-badge--sunset {
   background: linear-gradient(135deg, var(--sunset), #e0704a);
+}
+
+.progression-badge--gold {
+  background: linear-gradient(135deg, #ffd700, #b8860b);
 }
 
 .progression-content {

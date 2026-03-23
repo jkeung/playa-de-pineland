@@ -63,6 +63,22 @@ const levels = [
     cta: "Compete",
     ctaHref: "#events",
   },
+  {
+    tier: "Open",
+    name: "Professional / World-Class",
+    color: "gold",
+    skills: [
+      "Elite-level power, speed & athleticism",
+      "Flawless shot selection under pressure",
+      "Pro-level serve & serve-receive",
+      "Complete mastery of every skill",
+    ],
+    learn:
+      "The highest tier — former or current pros, D1 athletes, and players who compete at the national or international level. Every touch is intentional.",
+    recommended: "Private Lessons, Tournament Prep",
+    cta: "Go Pro",
+    ctaHref: "#pricing",
+  },
 ];
 
 export default function Progression() {
