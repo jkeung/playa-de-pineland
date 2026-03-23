@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function loginWithProvider(provider: "google" | "facebook" | "apple") {
   const supabase = await createClient();
-  const origin = (await headers()).get("origin");
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || (await headers()).get("origin");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
