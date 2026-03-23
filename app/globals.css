@@ -550,7 +550,7 @@ h1 {
 
 .section-header h2 {
   margin: 0 0 8px;
-  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  font-size: clamp(1.5rem, 3vw, 2.7rem);
   color: var(--ocean-dark);
   letter-spacing: -0.03em;
 }
@@ -1765,7 +1765,7 @@ footer {
 
 .progression-road {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
   position: relative;
 }
@@ -1806,23 +1806,23 @@ footer {
 }
 
 .progression-badge--sand {
-  background: linear-gradient(135deg, var(--sand-deep), #d4a94e);
+  background: linear-gradient(135deg, #64b5f6, #42a5f5);
 }
 
 .progression-badge--palm {
-  background: linear-gradient(135deg, var(--palm), #2d7b5f);
+  background: linear-gradient(135deg, #2196f3, #1976d2);
 }
 
 .progression-badge--ocean {
-  background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+  background: linear-gradient(135deg, #5c6bc0, #3949ab);
 }
 
 .progression-badge--sunset {
-  background: linear-gradient(135deg, var(--sunset), #e0704a);
+  background: linear-gradient(135deg, #7e57c2, #5e35b1);
 }
 
 .progression-badge--gold {
-  background: linear-gradient(135deg, #ffd700, #b8860b);
+  background: linear-gradient(135deg, #ffd54f, #f9a825);
 }
 
 .progression-content {
