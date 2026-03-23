@@ -11,8 +11,6 @@ import Pricing from "@/components/Pricing";
 import BookingCalendly from "@/components/BookingCalendly";
 import Schedule from "@/components/Schedule";
 import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact";
-import Location from "@/components/Location";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
@@ -36,8 +34,6 @@ export default function Home() {
       <ScrollReveal><Schedule /></ScrollReveal>
       <ScrollReveal><BookingCalendly /></ScrollReveal>
       <ScrollReveal><FAQ /></ScrollReveal>
-      <ScrollReveal><Contact /></ScrollReveal>
-      <ScrollReveal><Location /></ScrollReveal>
     </>
   );
 }

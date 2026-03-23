@@ -33,19 +33,21 @@ export default function Navbar() {
         )}
 
         <div className={`nav-links${menuOpen ? " nav-links--open" : ""}`}>
-          <a href="#training" onClick={closeMenu}>Training</a>
-          <a href="#experience" onClick={closeMenu}>Experience</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="btn btn-primary nav-book-mobile" href="#booking" onClick={closeMenu}>
+          <Link href="/#training" onClick={closeMenu}>Training</Link>
+          <Link href="/#experience" onClick={closeMenu}>Experience</Link>
+          <Link href="/contact" onClick={closeMenu}>Contact</Link>
+          <Link href="/find-us" onClick={closeMenu}>Find Us</Link>
+          <Link href="/rules" onClick={closeMenu}>Rules</Link>
+          <Link className="btn btn-primary nav-book-mobile" href="/#booking" onClick={closeMenu}>
             Book a Session
-          </a>
+          </Link>
         </div>
         <div className="nav-actions">
           <UserMenu />
           <ThemeToggle />
-          <a className="btn btn-primary nav-book-desktop" href="#booking">
+          <Link className="btn btn-primary nav-book-desktop" href="/#booking">
             Book a Session
-          </a>
+          </Link>
         </div>
         <button
           className="hamburger"
