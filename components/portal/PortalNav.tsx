@@ -28,16 +28,12 @@ export default function PortalNav({ displayName }: { displayName: string }) {
           >
             Book
           </Link>
-          <Link
-            href="/portal/profile"
-            className={`portal-nav-link${pathname === "/portal/profile" ? " portal-nav-link--active" : ""}`}
-          >
-            Profile
-          </Link>
         </div>
 
         <div className="portal-nav-actions">
-          <span className="portal-nav-greeting">Hey, {displayName || "Player"}</span>
+          <Link href="/portal/profile" className="portal-nav-greeting">
+            Hey, {displayName || "Player"}
+          </Link>
           <ThemeToggle />
           <form action={logout}>
             <button type="submit" className="btn btn-secondary portal-logout-btn">

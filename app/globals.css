@@ -2584,6 +2584,12 @@ select.portal-form-input {
   font-size: 0.88rem;
   color: var(--muted);
   white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.portal-nav-greeting:hover {
+  color: var(--ocean-dark);
 }
 
 .portal-logout-btn {
