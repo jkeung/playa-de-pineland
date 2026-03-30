@@ -705,8 +705,8 @@ footer {
   }
 
   .progression-road {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .progression-connector {
@@ -2035,25 +2035,35 @@ footer {
 
 @media (max-width: 600px) {
   .progression-node {
-    flex-direction: row;
-    text-align: left;
-    gap: 16px;
+    flex-direction: column;
+    text-align: center;
+    gap: 0;
     padding: 0;
   }
 
   .progression-badge {
-    margin-bottom: 0;
+    margin-bottom: 12px;
     flex-shrink: 0;
-    align-self: flex-start;
-    margin-top: 22px;
   }
 
   .progression-content {
-    align-items: flex-start;
+    align-items: center;
+  }
+
+  .progression-content h3 {
+    font-size: 0.95rem;
+  }
+
+  .progression-skills li {
+    font-size: 0.82rem;
+  }
+
+  .progression-learn {
+    font-size: 0.82rem;
   }
 
   .progression-node .btn {
-    width: auto;
+    width: 100%;
   }
 }
 
