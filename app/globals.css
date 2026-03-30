@@ -2316,6 +2316,69 @@ footer {
   margin-top: 4px;
 }
 
+/* ── Level Picker ── */
+
+.level-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.level-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.level-option:hover {
+  border-color: var(--ocean);
+  background: rgba(15, 92, 115, 0.03);
+}
+
+.level-option--selected {
+  border-color: var(--ocean);
+  background: rgba(15, 92, 115, 0.06);
+}
+
+.level-option-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.level-option-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+  color: white;
+  font-weight: 800;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.level-option-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.level-option-desc {
+  margin: 6px 0 0;
+  padding-left: 42px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .auth-switch {
   text-align: center;
   margin-top: 20px;
