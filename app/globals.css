@@ -1268,6 +1268,71 @@ footer {
   font-size: 0.92rem;
 }
 
+.schedule-mobile {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .schedule-desktop {
+    display: none;
+  }
+
+  .schedule-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .schedule-day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .schedule-day-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ocean-dark);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(8, 57, 72, 0.08);
+  }
+
+  .schedule-day-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .schedule-mobile-slot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+
+  .schedule-mobile-time {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+
+  .schedule-mobile-slot strong {
+    font-size: 0.85rem;
+    flex: 1;
+  }
+
+  .schedule-mobile-slot .schedule-level {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+}
+
 .schedule-label {
   padding: 14px 12px;
   font-weight: 700;
@@ -1295,8 +1360,9 @@ footer {
 
 .schedule-cell strong {
   display: block;
-  font-size: 0.88rem;
+  font-size: 0.75rem;
   margin-bottom: 2px;
+  white-space: nowrap;
 }
 
 .schedule-cell span {
@@ -1307,6 +1373,21 @@ footer {
 .schedule-cell--ocean {
   background: rgba(15, 92, 115, 0.1);
   color: var(--ocean-dark);
+}
+
+.schedule-cell--beginner {
+  background: rgba(46, 160, 67, 0.1);
+  color: #1a7f37;
+}
+
+.schedule-cell--intermediate {
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+}
+
+.schedule-cell--advanced {
+  background: rgba(220, 53, 69, 0.1);
+  color: #b91c1c;
 }
 
 .schedule-cell--sunset {
@@ -1326,6 +1407,64 @@ footer {
 
 .schedule-cell--empty {
   background: transparent;
+}
+
+.schedule-cell--muted {
+  background: rgba(0, 0, 0, 0.03);
+  color: #999;
+  font-style: italic;
+}
+
+.schedule-level {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+.schedule-level--beginner {
+  background: rgba(46, 160, 67, 0.15);
+  color: #1a7f37;
+}
+
+.schedule-level--intermediate {
+  background: rgba(99, 102, 241, 0.15);
+  color: #4338ca;
+}
+
+.schedule-level--advanced {
+  background: rgba(220, 53, 69, 0.15);
+  color: #b91c1c;
+}
+
+.schedule-extra {
+  font-size: 0.7rem !important;
+  font-weight: 600;
+  display: block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.schedule-extra--ocean {
+  color: var(--ocean-dark);
+}
+
+.schedule-extra--sunset {
+  color: #b85a30;
+}
+
+.schedule-extra--sand {
+  color: #8a6d2b;
+}
+
+.schedule-extra--palm {
+  color: var(--palm);
 }
 
 /* ── Dark Theme ── */

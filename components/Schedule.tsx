@@ -1,48 +1,66 @@
 type Session = {
-  time: string;
   label: string;
   color: string;
+  level?: string;
+  levelColor?: string;
+} | null;
+
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
+const times = ["9:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"] as const;
+
+const weekendCell: Session = {
+  label: "Open Play",
+  color: "ocean",
 };
 
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
+const openSlot: Session = {
+  label: "Open Slot",
+  color: "muted",
+};
 
-const schedule: Record<string, Session[]> = {
-  Mon: [
-    { time: "7:00 AM", label: "Open Play", color: "ocean" },
-    { time: "10:00 AM", label: "Group Clinic", color: "sunset" },
-    { time: "4:00 PM", label: "Kids Camp", color: "palm" },
-    { time: "6:00 PM", label: "Open Play", color: "ocean" },
-  ],
-  Tue: [
-    { time: "8:00 AM", label: "Private Lesson", color: "sand" },
-    { time: "10:00 AM", label: "Open Play", color: "ocean" },
-    { time: "4:00 PM", label: "Group Clinic", color: "sunset" },
-    { time: "6:00 PM", label: "Open Play", color: "ocean" },
-  ],
-  Wed: [
-    { time: "7:00 AM", label: "Open Play", color: "ocean" },
-    { time: "10:00 AM", label: "Group Clinic", color: "sunset" },
-    { time: "2:00 PM", label: "Private Lesson", color: "sand" },
-    { time: "4:00 PM", label: "Kids Camp", color: "palm" },
-  ],
-  Thu: [
-    { time: "8:00 AM", label: "Private Lesson", color: "sand" },
-    { time: "10:00 AM", label: "Open Play", color: "ocean" },
-    { time: "4:00 PM", label: "Group Clinic", color: "sunset" },
-    { time: "6:00 PM", label: "Open Play", color: "ocean" },
-  ],
-  Fri: [
-    { time: "7:00 AM", label: "Open Play", color: "ocean" },
-    { time: "10:00 AM", label: "Group Clinic", color: "sunset" },
-    { time: "4:00 PM", label: "Kids Camp", color: "palm" },
-    { time: "6:00 PM", label: "Open Play", color: "ocean" },
-  ],
-  Sat: [
-    { time: "8:00 AM", label: "Open Play", color: "ocean" },
-    { time: "10:00 AM", label: "Group Clinic", color: "sunset" },
-    { time: "12:00 PM", label: "Kids Camp", color: "palm" },
-    { time: "2:00 PM", label: "Private Lesson", color: "sand" },
-  ],
+const schedule: Record<string, Record<string, Session>> = {
+  Mon: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": { label: "Open Play", color: "beginner", level: "Beginner", levelColor: "beginner" },
+  },
+  Tue: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": { label: "Open Play", color: "intermediate", level: "Intermediate", levelColor: "intermediate" },
+  },
+  Wed: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": { label: "Group Clinic", color: "beginner", level: "Beginner", levelColor: "beginner" },
+  },
+  Thu: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": { label: "Open Play", color: "advanced", level: "Advanced", levelColor: "advanced" },
+  },
+  Fri: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": { label: "Group Clinic", color: "intermediate", level: "Intermediate", levelColor: "intermediate" },
+  },
+  Sat: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": openSlot,
+  },
+  Sun: {
+    "9:00 AM": openSlot,
+    "12:00 PM": openSlot,
+    "3:00 PM": openSlot,
+    "6:00 PM": openSlot,
+  },
 };
 
 export default function Schedule() {
@@ -53,13 +71,13 @@ export default function Schedule() {
           <div>
             <h2>Weekly Schedule</h2>
             <p>
-              Find the right session for your week. From morning open play to
-              evening clinics, there&rsquo;s always court time available.
+              Beach Doubles — Weekday evenings at 6 PM and open slots all day on weekends.
             </p>
           </div>
         </div>
 
-        <div className="schedule-scroll">
+        {/* Desktop table */}
+        <div className="schedule-scroll schedule-desktop">
           <table className="schedule-table">
             <thead>
               <tr>
@@ -70,17 +88,22 @@ export default function Schedule() {
               </tr>
             </thead>
             <tbody>
-              {[0, 1, 2, 3].map((row) => (
-                <tr key={row}>
-                  <td className="schedule-time">
-                    {schedule.Mon[row]?.time ?? ""}
-                  </td>
+              {times.map((time) => (
+                <tr key={time}>
+                  <td className="schedule-time">{time}</td>
                   {days.map((day) => {
-                    const s = schedule[day][row];
+                    const s = schedule[day]?.[time] ?? null;
                     return s ? (
-                      <td key={day} className={`schedule-cell schedule-cell--${s.color}`}>
+                      <td
+                        key={day}
+                        className={`schedule-cell schedule-cell--${s.color}`}
+                      >
                         <strong>{s.label}</strong>
-                        <span>{s.time}</span>
+                        {s.level && (
+                          <span className={`schedule-level schedule-level--${s.levelColor}`}>
+                            {s.level}
+                          </span>
+                        )}
                       </td>
                     ) : (
                       <td key={day} className="schedule-cell schedule-cell--empty" />
@@ -90,6 +113,34 @@ export default function Schedule() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="schedule-mobile">
+          {days.map((day) => (
+            <div key={day} className="schedule-day-card">
+              <h3 className="schedule-day-title">{day}</h3>
+              <div className="schedule-day-slots">
+                {times.map((time) => {
+                  const s = schedule[day]?.[time] ?? null;
+                  return s ? (
+                    <div
+                      key={time}
+                      className={`schedule-mobile-slot schedule-cell--${s.color}`}
+                    >
+                      <span className="schedule-mobile-time">{time}</span>
+                      <strong>{s.label}</strong>
+                      {s.level && (
+                        <span className={`schedule-level schedule-level--${s.levelColor}`}>
+                          {s.level}
+                        </span>
+                      )}
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

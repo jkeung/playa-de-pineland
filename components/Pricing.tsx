@@ -1,10 +1,10 @@
 const tiers = [
   {
-    name: "Drop-In",
-    price: "$25",
+    name: "Open Play",
+    price: "$30",
     unit: "/session",
     features: [
-      "Single open-play session",
+      "3-hour open-play session",
       "All skill levels welcome",
       "Equipment available on-site",
       "No commitment required",
@@ -12,20 +12,20 @@ const tiers = [
   },
   {
     name: "Group Clinic",
-    price: "$80",
-    unit: "/4 sessions",
+    price: "$40",
+    unit: "/session",
     popular: true,
     features: [
-      "4-session punch card",
-      "Coach-led drills & games",
+      "2-hour coach-led session",
+      "Drills, strategy & live games",
       "Small groups (max 8)",
       "Skill-matched groupings",
-      "Schedule flexibility",
+      "4-session pack: $120",
     ],
   },
   {
     name: "Private Lesson",
-    price: "$60",
+    price: "$100",
     unit: "/session",
     features: [
       "1-on-1 with a certified coach",
