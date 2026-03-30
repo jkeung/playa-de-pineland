@@ -1,35 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { login, signup, loginWithProvider } from "@/app/portal/actions";
-
-const levels = [
-  {
-    value: "B",
-    name: "B — Beginner",
-    description:
-      "New to beach doubles. Learning bump, set, spike fundamentals, serving, and basic 2v2 positioning.",
-  },
-  {
-    value: "BB",
-    name: "BB — Intermediate",
-    description:
-      "Reliable pass-set-hit sequences, consistent serves, and good court coverage with your partner.",
-  },
-  {
-    value: "A",
-    name: "A — Advanced",
-    description:
-      "Strong shot selection, hand signals, defensive schemes, and solid serving & serve-receive as a team.",
-  },
-  {
-    value: "AA",
-    name: "AA — Elite",
-    description:
-      "Top-tier amateur play — dominant serving, seamless partner chemistry, and consistent performance under pressure.",
-  },
-];
 
 export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const isLogin = mode === "login";
@@ -37,7 +10,6 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
     isLogin ? login : signup,
     null
   );
-  const [selectedLevel, setSelectedLevel] = useState("B");
 
   return (
     <div className="auth-page">
@@ -114,29 +86,6 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
               placeholder="At least 6 characters"
             />
           </div>
-
-          {!isLogin && (
-            <div className="portal-form-group">
-              <label>Skill Level</label>
-              <input type="hidden" name="level" value={selectedLevel} />
-              <div className="level-picker">
-                {levels.map((level) => (
-                  <button
-                    key={level.value}
-                    type="button"
-                    className={`level-option${selectedLevel === level.value ? " level-option--selected" : ""}`}
-                    onClick={() => setSelectedLevel(level.value)}
-                  >
-                    <div className="level-option-header">
-                      <span className="level-option-badge">{level.value}</span>
-                      <span className="level-option-name">{level.name}</span>
-                    </div>
-                    <p className="level-option-desc">{level.description}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
 
           {state?.error && (
             <div className="auth-error">{state.error}</div>

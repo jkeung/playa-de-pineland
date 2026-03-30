@@ -43,9 +43,8 @@ export async function signup(prevState: { error: string } | null, formData: Form
   const supabase = await createClient();
 
   const fullName = formData.get("full_name") as string;
-  const level = formData.get("level") as string;
 
-  const { data, error } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: formData.get("email") as string,
     password: formData.get("password") as string,
     options: {
@@ -55,13 +54,6 @@ export async function signup(prevState: { error: string } | null, formData: Form
 
   if (error) {
     return { error: error.message };
-  }
-
-  if (data.user && level) {
-    await supabase
-      .from("profiles")
-      .update({ level })
-      .eq("id", data.user.id);
   }
 
   revalidatePath("/", "layout");
