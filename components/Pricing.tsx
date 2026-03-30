@@ -1,7 +1,7 @@
 const tiers = [
   {
     name: "Open Play",
-    price: "$30",
+    price: "$0",
     unit: "/session",
     features: [
       "3-hour open-play session",
@@ -12,7 +12,7 @@ const tiers = [
   },
   {
     name: "Group Clinic",
-    price: "$40",
+    price: "$0",
     unit: "/session",
     popular: true,
     features: [
@@ -20,12 +20,11 @@ const tiers = [
       "Drills, strategy & live games",
       "Small groups (max 8)",
       "Skill-matched groupings",
-      "4-session pack: $120",
     ],
   },
   {
     name: "Private Lesson",
-    price: "$100",
+    price: "$0",
     unit: "/session",
     features: [
       "1-on-1 with a certified coach",
