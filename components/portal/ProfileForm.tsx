@@ -10,6 +10,33 @@ type Profile = {
   level: string;
 };
 
+const levels = [
+  {
+    value: "B",
+    name: "B — Beginner",
+    description:
+      "New to beach doubles. Learning bump, set, spike fundamentals, serving, and basic 2v2 positioning.",
+  },
+  {
+    value: "BB",
+    name: "BB — Intermediate",
+    description:
+      "Reliable pass-set-hit sequences, consistent serves, and good court coverage with your partner.",
+  },
+  {
+    value: "A",
+    name: "A — Advanced",
+    description:
+      "Strong shot selection, hand signals, defensive schemes, and solid serving & serve-receive as a team.",
+  },
+  {
+    value: "AA",
+    name: "AA — Elite",
+    description:
+      "Top-tier amateur play — dominant serving, seamless partner chemistry, and consistent performance under pressure.",
+  },
+];
+
 function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 10);
   if (digits.length === 0) return "";
@@ -21,6 +48,7 @@ function formatPhone(value: string): string {
 export default function ProfileForm({ profile }: { profile: Profile }) {
   const [state, formAction, pending] = useActionState(updateProfile, null);
   const [phone, setPhone] = useState(formatPhone(profile.phone));
+  const [selectedLevel, setSelectedLevel] = useState(profile.level || "B");
 
   return (
     <form action={formAction} className="profile-form">
@@ -50,18 +78,24 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
       </div>
 
       <div className="portal-form-group">
-        <label htmlFor="level">Level</label>
-        <select
-          id="level"
-          name="level"
-          defaultValue={profile.level}
-          className="portal-form-input"
-        >
-          <option value="B">B — Beginner</option>
-          <option value="BB">BB — Intermediate</option>
-          <option value="A">A — Advanced</option>
-          <option value="AA">AA — Elite</option>
-        </select>
+        <label>Skill Level</label>
+        <input type="hidden" name="level" value={selectedLevel} />
+        <div className="level-picker">
+          {levels.map((level) => (
+            <button
+              key={level.value}
+              type="button"
+              className={`level-option${selectedLevel === level.value ? " level-option--selected" : ""}`}
+              onClick={() => setSelectedLevel(level.value)}
+            >
+              <div className="level-option-header">
+                <span className="level-option-badge">{level.value}</span>
+                <span className="level-option-name">{level.name}</span>
+              </div>
+              <p className="level-option-desc">{level.description}</p>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="portal-form-group">
