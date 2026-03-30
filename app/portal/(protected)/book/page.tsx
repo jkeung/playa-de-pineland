@@ -12,7 +12,7 @@ export default async function BookSession() {
 
   const name = encodeURIComponent(profile?.display_name || "");
   const email = encodeURIComponent(profile?.email || user!.email || "");
-  const calendlyUrl = `https://calendly.com/playa-de-pineland?name=${name}&email=${email}`;
+  const calendlyUrl = `https://calendly.com/playadepineland?name=${name}&email=${email}`;
 
   return (
     <div className="portal-dashboard">
