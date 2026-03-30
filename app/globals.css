@@ -2067,6 +2067,17 @@ footer {
   }
 }
 
+@media (max-width: 980px) {
+  .progression-road {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .progression-connector {
+    display: none;
+  }
+}
+
 /* ── Coaches ── */
 
 .coach-card {
