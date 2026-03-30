@@ -31,7 +31,7 @@ export default function PortalNav({ displayName }: { displayName: string }) {
         </div>
 
         <div className="portal-nav-actions">
-          <Link href="/portal/profile" className="portal-nav-greeting">
+          <Link href="/portal" className="portal-nav-greeting">
             Hey, {displayName || "Player"}
           </Link>
           <ThemeToggle />
