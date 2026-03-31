@@ -58,7 +58,7 @@ export default async function PortalDashboard() {
   const isAdmin = profile?.is_admin || false;
 
   return (
-    <div className="portal-dashboard">
+    <div>
       <section className="mb-8">
         <h1
           className="text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)] m-0 mb-[6px]"

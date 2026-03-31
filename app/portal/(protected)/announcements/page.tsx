@@ -32,7 +32,7 @@ export default async function AnnouncementsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="portal-dashboard">
+    <div>
       <section className="mb-8">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
           <div>

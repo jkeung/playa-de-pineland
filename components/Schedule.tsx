@@ -77,7 +77,7 @@ export default function Schedule() {
         </div>
 
         {/* Desktop table */}
-        <div className="overflow-x-auto [-webkit-overflow-scrolling:touch] rounded-[var(--radius)] shadow-[var(--shadow)] bg-[var(--card)] border border-[var(--border)] schedule-desktop">
+        <div className="overflow-x-auto [-webkit-overflow-scrolling:touch] rounded-[var(--radius)] shadow-[var(--shadow)] bg-[var(--card)] border border-[var(--border)] max-md:hidden">
           <table className="w-full min-w-[640px] border-collapse text-[0.92rem]">
             <thead>
               <tr>

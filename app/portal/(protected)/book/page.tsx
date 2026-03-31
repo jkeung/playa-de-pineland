@@ -15,7 +15,7 @@ export default async function BookSession() {
   const calendlyUrl = `https://calendly.com/playadepineland?name=${name}&email=${email}`;
 
   return (
-    <div className="portal-dashboard">
+    <div>
       <section className="mb-8">
         <h1
           className="text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)] m-0 mb-[6px]"

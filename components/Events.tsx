@@ -56,7 +56,7 @@ export default function Events() {
 
         <div className="grid grid-cols-3 gap-[18px] max-lg:grid-cols-2 max-sm:grid-cols-1">
           {events.map((e) => (
-            <div className="card event-card flex flex-col" key={e.name}>
+            <div className="card flex flex-col" key={e.name}>
               <span
                 className={`inline-block self-start text-[0.78rem] font-bold py-1 px-[14px] rounded-full tracking-[0.04em] uppercase text-white mb-[14px] ${badgeGradient[e.color]}`}
               >

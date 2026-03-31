@@ -14,7 +14,7 @@ export default function Location() {
 
         <div className="grid grid-cols-2 gap-[18px] max-lg:grid-cols-1">
           <div className="grid gap-7 content-start">
-            <div className="location-detail">
+            <div>
               <h3 className="m-0 mb-2 text-[color:var(--ocean-dark)] text-[1.1rem] dark:text-[color:var(--heading-dark)]">
                 📍 Address
               </h3>
@@ -23,7 +23,7 @@ export default function Location() {
               </p>
             </div>
 
-            <div className="location-detail">
+            <div>
               <h3 className="m-0 mb-2 text-[color:var(--ocean-dark)] text-[1.1rem] dark:text-[color:var(--heading-dark)]">
                 🕐 Hours
               </h3>
@@ -34,7 +34,7 @@ export default function Location() {
               </ul>
             </div>
 
-            <div className="location-detail">
+            <div>
               <h3 className="m-0 mb-2 text-[color:var(--ocean-dark)] text-[1.1rem] dark:text-[color:var(--heading-dark)]">
                 📞 Contact
               </h3>
