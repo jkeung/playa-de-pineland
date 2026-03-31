@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 
 export default function RulesPage() {
   return (
-    <div className="rules-page">
+    <div className="pt-[42px] pb-[60px]">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>Beach Volleyball Rules</h2>
-            <p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">Beach Volleyball Rules</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
               Quick-reference guide for beach doubles (AVP rules, condensed).
               Whether you&rsquo;re brand new or crossing over from indoor, this
               covers everything you need to know before stepping on the sand.
@@ -21,9 +21,9 @@ export default function RulesPage() {
           </div>
         </div>
 
-        <div className="rules-grid">
-          <section className="rules-section card">
-            <h3>The Basics</h3>
+        <div className="grid grid-cols-2 gap-[18px] max-md:grid-cols-1">
+          <section className="card py-7 px-6 max-md:py-[22px] max-md:px-[18px]">
+            <h3 className="m-0 mb-4 text-[1.15rem] text-[color:var(--ocean-dark)] font-bold dark:text-[color:var(--heading-dark)]">The Basics</h3>
             <ul className="rules-list">
               <li>2 vs 2 — no substitutions</li>
               <li>Rally scoring (point on every serve)</li>
@@ -35,8 +35,8 @@ export default function RulesPage() {
             </ul>
           </section>
 
-          <section className="rules-section card">
-            <h3>Hitting &amp; Ball Handling</h3>
+          <section className="card py-7 px-6 max-md:py-[22px] max-md:px-[18px]">
+            <h3 className="m-0 mb-4 text-[1.15rem] text-[color:var(--ocean-dark)] font-bold dark:text-[color:var(--heading-dark)]">Hitting &amp; Ball Handling</h3>
             <ul className="rules-list">
               <li>3 contacts allowed per side</li>
               <li>A block counts as the first touch</li>
@@ -55,8 +55,8 @@ export default function RulesPage() {
             </ul>
           </section>
 
-          <section className="rules-section card">
-            <h3>Serving</h3>
+          <section className="card py-7 px-6 max-md:py-[22px] max-md:px-[18px]">
+            <h3 className="m-0 mb-4 text-[1.15rem] text-[color:var(--ocean-dark)] font-bold dark:text-[color:var(--heading-dark)]">Serving</h3>
             <ul className="rules-list">
               <li>Serve from behind the endline</li>
               <li>One toss per serve attempt</li>
@@ -64,8 +64,8 @@ export default function RulesPage() {
             </ul>
           </section>
 
-          <section className="rules-section card">
-            <h3>Net Play</h3>
+          <section className="card py-7 px-6 max-md:py-[22px] max-md:px-[18px]">
+            <h3 className="m-0 mb-4 text-[1.15rem] text-[color:var(--ocean-dark)] font-bold dark:text-[color:var(--heading-dark)]">Net Play</h3>
             <ul className="rules-list">
               <li>
                 No centerline violation — you can cross under the net as long as
@@ -76,8 +76,8 @@ export default function RulesPage() {
             </ul>
           </section>
 
-          <section className="rules-section card">
-            <h3>Court Etiquette</h3>
+          <section className="card py-7 px-6 max-md:py-[22px] max-md:px-[18px]">
+            <h3 className="m-0 mb-4 text-[1.15rem] text-[color:var(--ocean-dark)] font-bold dark:text-[color:var(--heading-dark)]">Court Etiquette</h3>
             <ul className="rules-list">
               <li>Players call their own lines — in or out</li>
               <li>
@@ -87,8 +87,8 @@ export default function RulesPage() {
             </ul>
           </section>
 
-          <section className="rules-section rules-section--house card">
-            <h3>Playa de Pineland House Rules</h3>
+          <section className="rules-section--house card col-span-full border-t-[3px] border-t-[var(--sunset)] py-7 px-6 max-md:py-[22px] max-md:px-[18px]">
+            <h3 className="m-0 mb-4 text-[1.15rem] text-[color:var(--ocean-dark)] font-bold dark:text-[color:var(--heading-dark)]">Playa de Pineland House Rules</h3>
             <ul className="rules-list">
               <li>Have fun — this is the beach, not the Olympics</li>
               <li>Be supportive — hype up good plays, yours and theirs</li>

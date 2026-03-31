@@ -18,45 +18,53 @@ export default function Gallery() {
   const next = () => setCurrent((c) => (c === slides.length - 1 ? 0 : c + 1));
 
   return (
-    <section className="section">
+    <section className="pt-[42px] pb-[22px]">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>Gallery</h2>
-            <p>A glimpse of what it&apos;s like to play at Playa de Pineland.</p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">Gallery</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">A glimpse of what it&apos;s like to play at Playa de Pineland.</p>
           </div>
         </div>
 
-        <div className="gallery">
-          <div className="gallery-viewport">
+        <div className="relative">
+          <div className="overflow-hidden rounded-[var(--radius)] shadow-[var(--shadow)]">
             <div
-              className="gallery-track"
+              className="flex transition-transform duration-[400ms] ease-[ease]"
               style={{ transform: `translateX(-${current * 100}%)` }}
             >
               {slides.map((s) => (
                 <div
-                  className="gallery-slide"
+                  className="min-w-full aspect-[16/7] grid place-items-center"
                   key={s.label}
                   style={{ background: s.gradient }}
                 >
-                  <span className="gallery-label">{s.label}</span>
+                  <span className="text-[clamp(1.4rem,3vw,2.2rem)] font-extrabold text-white/85 tracking-[-0.02em]">{s.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <button className="gallery-arrow gallery-arrow--left" onClick={prev} aria-label="Previous slide">
+          <button
+            className="absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-none bg-[rgba(248,250,244,0.82)] backdrop-blur-[10px] shadow-[0_6px_18px_rgba(8,57,72,0.12)] cursor-pointer text-[1.6rem] text-[color:var(--ocean-dark)] grid place-items-center transition-[transform,box-shadow] duration-200 leading-none hover:-translate-y-1/2 hover:scale-[1.08] max-md:w-9 max-md:h-9 max-md:text-[1.2rem] dark:bg-[rgba(30,35,40,0.82)] dark:text-[#e8e6e1] left-3"
+            onClick={prev}
+            aria-label="Previous slide"
+          >
             &#8249;
           </button>
-          <button className="gallery-arrow gallery-arrow--right" onClick={next} aria-label="Next slide">
+          <button
+            className="absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-none bg-[rgba(248,250,244,0.82)] backdrop-blur-[10px] shadow-[0_6px_18px_rgba(8,57,72,0.12)] cursor-pointer text-[1.6rem] text-[color:var(--ocean-dark)] grid place-items-center transition-[transform,box-shadow] duration-200 leading-none hover:-translate-y-1/2 hover:scale-[1.08] max-md:w-9 max-md:h-9 max-md:text-[1.2rem] dark:bg-[rgba(30,35,40,0.82)] dark:text-[#e8e6e1] right-3"
+            onClick={next}
+            aria-label="Next slide"
+          >
             &#8250;
           </button>
 
-          <div className="gallery-dots">
+          <div className="flex justify-center gap-2 mt-4">
             {slides.map((s, i) => (
               <button
                 key={s.label}
-                className={`gallery-dot${i === current ? " gallery-dot--active" : ""}`}
+                className={`w-[10px] h-[10px] rounded-full border-none cursor-pointer p-0 transition-[background,transform] duration-200 dark:bg-[rgba(255,255,255,0.18)]${i === current ? " bg-[var(--ocean)] scale-[1.25]" : " bg-[rgba(8,57,72,0.18)]"}`}
                 onClick={() => setCurrent(i)}
                 aria-label={`Go to slide ${i + 1}`}
               />

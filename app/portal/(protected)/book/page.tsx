@@ -16,9 +16,14 @@ export default async function BookSession() {
 
   return (
     <div className="portal-dashboard">
-      <section className="portal-welcome">
-        <h1>Book a Session</h1>
-        <p>Pick a time that works for you — your name and email are pre-filled.</p>
+      <section className="mb-8">
+        <h1
+          className="text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)] m-0 mb-[6px]"
+          style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}
+        >
+          Book a Session
+        </h1>
+        <p className="m-0 text-[color:var(--muted)] text-base">Pick a time that works for you — your name and email are pre-filled.</p>
       </section>
 
       <div className="booking-embed">

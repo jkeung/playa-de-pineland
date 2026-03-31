@@ -7,11 +7,15 @@ export default function AnnouncementForm() {
   const [state, formAction, pending] = useActionState(createAnnouncement, null);
 
   return (
-    <form action={formAction} className="announcement-form">
-      {state?.error && <div className="auth-error">{state.error}</div>}
+    <form action={formAction} className="flex flex-col gap-[18px]">
+      {state?.error && (
+        <div className="py-3 px-4 rounded-xl bg-[rgba(220,38,38,0.08)] border border-[rgba(220,38,38,0.2)] text-[#dc2626] text-[0.9rem] dark:bg-[rgba(220,38,38,0.12)] dark:border-[rgba(220,38,38,0.25)] dark:text-[#f87171]">
+          {state.error}
+        </div>
+      )}
 
-      <div className="portal-form-group">
-        <label htmlFor="title">Title</label>
+      <div className="flex flex-col gap-[6px]">
+        <label htmlFor="title" className="text-[0.9rem] font-semibold text-[color:var(--text)]">Title</label>
         <input
           id="title"
           name="title"
@@ -22,20 +26,20 @@ export default function AnnouncementForm() {
         />
       </div>
 
-      <div className="portal-form-group">
-        <label htmlFor="body">Body</label>
+      <div className="flex flex-col gap-[6px]">
+        <label htmlFor="body" className="text-[0.9rem] font-semibold text-[color:var(--text)]">Body</label>
         <textarea
           id="body"
           name="body"
           required
-          className="portal-form-input portal-form-textarea"
+          className="portal-form-input resize-y min-h-[100px]"
           placeholder="What do you want to share?"
           rows={4}
         />
       </div>
 
-      <div className="portal-form-group">
-        <label htmlFor="category">Category</label>
+      <div className="flex flex-col gap-[6px]">
+        <label htmlFor="category" className="text-[0.9rem] font-semibold text-[color:var(--text)]">Category</label>
         <select id="category" name="category" className="portal-form-input">
           <option value="general">General</option>
           <option value="weather">Weather</option>
@@ -44,9 +48,14 @@ export default function AnnouncementForm() {
         </select>
       </div>
 
-      <div className="portal-form-group">
-        <label className="announcement-checkbox-label">
-          <input type="checkbox" name="pinned" value="true" />
+      <div className="flex flex-col gap-[6px]">
+        <label className="flex items-center gap-2 text-[0.92rem] cursor-pointer">
+          <input
+            type="checkbox"
+            name="pinned"
+            value="true"
+            className="w-[18px] h-[18px] accent-[var(--ocean)] cursor-pointer"
+          />
           <span>Pin this announcement</span>
         </label>
       </div>

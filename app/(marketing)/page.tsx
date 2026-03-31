@@ -15,8 +15,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 export default function Home() {
   return (
     <>
-      <section className="hero">
-        <div className="container hero-grid">
+      <section className="pt-[72px] pb-[42px] max-md:pt-10">
+        <div className="container grid grid-cols-[1.15fr_0.85fr] gap-7 items-stretch max-lg:grid-cols-1">
           <Hero />
           <BeachScene />
         </div>

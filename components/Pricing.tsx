@@ -37,29 +37,33 @@ const tiers = [
 
 export default function Pricing() {
   return (
-    <section className="section" id="pricing">
+    <section className="pt-[42px] pb-[22px]" id="pricing">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>Simple, Transparent Pricing</h2>
-            <p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">Simple, Transparent Pricing</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
               Whether you&rsquo;re dropping in for a casual game or committing to
               structured coaching, we have a plan that fits.
             </p>
           </div>
         </div>
 
-        <div className="cards">
+        <div className="grid grid-cols-3 gap-[18px] max-lg:grid-cols-2 max-sm:grid-cols-1">
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`card pricing-card${tier.popular ? " pricing-card--popular" : ""}`}
+              className={`card flex flex-col items-center text-center relative${tier.popular ? " border-2 border-[var(--ocean)] shadow-[0_16px_40px_rgba(8,57,72,0.16)]" : ""}`}
             >
-              {tier.popular && <span className="pricing-badge">Popular</span>}
+              {tier.popular && (
+                <span className="absolute -top-[13px] left-1/2 -translate-x-1/2 bg-[linear-gradient(135deg,var(--ocean),var(--ocean-dark))] text-white text-[0.78rem] font-bold py-1 px-4 rounded-full tracking-[0.04em] uppercase">
+                  Popular
+                </span>
+              )}
               <h3>{tier.name}</h3>
-              <div className="pricing-price">
+              <div className="text-[2.4rem] font-extrabold text-[color:var(--ocean-dark)] mt-3 mb-2 leading-none dark:text-heading-dark">
                 {tier.price}
-                <span>{tier.unit}</span>
+                <span className="text-[0.9rem] font-medium text-[color:var(--muted)]">{tier.unit}</span>
               </div>
               <ul className="pricing-features">
                 {tier.features.map((f) => (
@@ -67,7 +71,7 @@ export default function Pricing() {
                 ))}
               </ul>
               <a
-                className={`btn ${tier.popular ? "btn-primary" : "btn-secondary"}`}
+                className={`btn mt-auto w-full ${tier.popular ? "btn-primary" : "btn-secondary"}`}
                 href="#booking"
               >
                 Book Now

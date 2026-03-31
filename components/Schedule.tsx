@@ -65,48 +65,48 @@ const schedule: Record<string, Record<string, Session>> = {
 
 export default function Schedule() {
   return (
-    <section className="section" id="schedule">
+    <section className="pt-[42px] pb-[22px]" id="schedule">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>Weekly Schedule</h2>
-            <p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">Weekly Schedule</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
               Beach Doubles — Weekday evenings at 6 PM and open slots all day on weekends.
             </p>
           </div>
         </div>
 
         {/* Desktop table */}
-        <div className="schedule-scroll schedule-desktop">
-          <table className="schedule-table">
+        <div className="overflow-x-auto [-webkit-overflow-scrolling:touch] rounded-[var(--radius)] shadow-[var(--shadow)] bg-[var(--card)] border border-[var(--border)] schedule-desktop">
+          <table className="w-full min-w-[640px] border-collapse text-[0.92rem]">
             <thead>
               <tr>
-                <th className="schedule-label">Time</th>
+                <th className="py-[14px] px-3 font-bold text-[color:var(--ocean-dark)] text-center border-b-2 border-[rgba(8,57,72,0.08)] whitespace-nowrap dark:text-heading-dark">Time</th>
                 {days.map((d) => (
-                  <th key={d} className="schedule-label">{d}</th>
+                  <th key={d} className="py-[14px] px-3 font-bold text-[color:var(--ocean-dark)] text-center border-b-2 border-[rgba(8,57,72,0.08)] whitespace-nowrap dark:text-heading-dark">{d}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {times.map((time) => (
                 <tr key={time}>
-                  <td className="schedule-time">{time}</td>
+                  <td className="py-[10px] px-[14px] font-semibold text-[color:var(--muted)] whitespace-nowrap text-[0.85rem] text-center">{time}</td>
                   {days.map((day) => {
                     const s = schedule[day]?.[time] ?? null;
                     return s ? (
                       <td
                         key={day}
-                        className={`schedule-cell schedule-cell--${s.color}`}
+                        className={`py-3 px-[10px] text-center border border-[rgba(8,57,72,0.05)] rounded-lg schedule-cell--${s.color}`}
                       >
-                        <strong>{s.label}</strong>
+                        <strong className="block text-[0.75rem] mb-[2px] whitespace-nowrap">{s.label}</strong>
                         {s.level && (
-                          <span className={`schedule-level schedule-level--${s.levelColor}`}>
+                          <span className={`text-[0.78rem] opacity-70 schedule-level schedule-level--${s.levelColor}`}>
                             {s.level}
                           </span>
                         )}
                       </td>
                     ) : (
-                      <td key={day} className="schedule-cell schedule-cell--empty" />
+                      <td key={day} className={`py-3 px-[10px] text-center border border-[rgba(8,57,72,0.05)] rounded-lg schedule-cell--empty`} />
                     );
                   })}
                 </tr>
@@ -116,20 +116,20 @@ export default function Schedule() {
         </div>
 
         {/* Mobile cards */}
-        <div className="schedule-mobile">
+        <div className="hidden max-md:flex max-md:flex-col max-md:gap-3">
           {days.map((day) => (
-            <div key={day} className="schedule-day-card">
-              <h3 className="schedule-day-title">{day}</h3>
-              <div className="schedule-day-slots">
+            <div key={day} className="bg-[var(--card)] border border-[var(--border)] rounded-[var(--radius)] p-4 shadow-[var(--shadow)]">
+              <h3 className="text-base font-bold text-[color:var(--ocean-dark)] mb-[10px] pb-2 border-b-2 border-[rgba(8,57,72,0.08)] dark:text-heading-dark">{day}</h3>
+              <div className="flex flex-col gap-2">
                 {times.map((time) => {
                   const s = schedule[day]?.[time] ?? null;
                   return s ? (
                     <div
                       key={time}
-                      className={`schedule-mobile-slot schedule-cell--${s.color}`}
+                      className={`flex items-center gap-[10px] py-[10px] px-3 rounded-lg schedule-cell--${s.color}`}
                     >
-                      <span className="schedule-mobile-time">{time}</span>
-                      <strong>{s.label}</strong>
+                      <span className="text-[0.78rem] font-semibold text-[color:var(--muted)] min-w-[70px] shrink-0">{time}</span>
+                      <strong className="text-[0.85rem] flex-1">{s.label}</strong>
                       {s.level && (
                         <span className={`schedule-level schedule-level--${s.levelColor}`}>
                           {s.level}

@@ -83,37 +83,49 @@ const levels = [
 
 export default function Progression() {
   return (
-    <section className="section" id="progression">
+    <section className="pt-[42px] pb-[22px]" id="progression">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>Your Path to the Sand</h2>
-            <p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">Your Path to the Sand</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
               Whether you&apos;re picking up a volleyball for the first time or
               gunning for tournament gold — here&apos;s the roadmap.
             </p>
           </div>
         </div>
 
-        <div className="progression-road">
+        <div className="grid grid-cols-5 relative max-lg:grid-cols-1 max-lg:gap-6">
           {levels.map((level, i) => (
-            <div className="progression-node" key={level.tier}>
-              {i > 0 && <div className="progression-connector" />}
+            <div
+              className="flex flex-col items-center text-center relative px-[10px] max-sm:flex-col max-sm:text-center max-sm:gap-0 max-sm:px-0"
+              key={level.tier}
+            >
+              {i > 0 && (
+                <div className="absolute top-7 right-1/2 w-full h-[3px] bg-[linear-gradient(90deg,rgba(8,57,72,0.12),rgba(8,57,72,0.12))] z-0 max-lg:hidden" />
+              )}
               <div className={`progression-badge progression-badge--${level.color}`}>
                 {level.tier}
               </div>
-              <div className="progression-content">
-                <h3>{level.name}</h3>
-                <ul className="progression-skills">
+              <div className="bg-[var(--card)] border border-[var(--border)] rounded-[var(--radius)] py-[22px] px-[18px] shadow-[0_12px_30px_rgba(8,57,72,0.08)] backdrop-blur-[10px] flex flex-col items-center flex-1">
+                <h3 className="m-0 mb-3 text-[color:var(--ocean-dark)] text-[1.08rem] dark:text-[color:var(--heading-dark)] max-sm:text-[0.95rem]">
+                  {level.name}
+                </h3>
+                <ul className="progression-skills list-none p-0 m-0 mb-[14px] grid gap-[6px] w-full">
                   {level.skills.map((s) => (
                     <li key={s}>{s}</li>
                   ))}
                 </ul>
-                <p className="progression-learn">{level.learn}</p>
-                <span className="progression-rec">
+                <p className="m-0 mb-3 text-[color:var(--muted)] text-[0.92rem] leading-[1.7] italic max-sm:text-[0.82rem]">
+                  {level.learn}
+                </p>
+                <span className="block text-[0.82rem] font-semibold text-[color:var(--ocean-dark)] mb-4 mt-auto dark:text-[color:var(--heading-dark)]">
                   Recommended: {level.recommended}
                 </span>
-                <a className="btn btn-secondary" href={level.ctaHref}>
+                <a
+                  className="btn btn-secondary w-full py-[10px] px-[18px] text-[0.9rem]"
+                  href={level.ctaHref}
+                >
                   {level.cta}
                 </a>
               </div>

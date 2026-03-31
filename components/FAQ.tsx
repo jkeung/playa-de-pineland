@@ -37,31 +37,34 @@ export default function FAQ() {
   };
 
   return (
-    <section className="section">
+    <section className="pt-[42px] pb-[22px]">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>Frequently Asked Questions</h2>
-            <p>Everything you need to know before hitting the sand.</p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">Frequently Asked Questions</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">Everything you need to know before hitting the sand.</p>
           </div>
         </div>
 
-        <div className="faq-list">
+        <div className="max-w-[800px]">
           {faqs.map((item, i) => (
             <div
-              className={`faq-item${openIndex === i ? " faq-item--open" : ""}`}
+              className={`border-b border-[rgba(8,57,72,0.08)]`}
               key={i}
             >
               <button
-                className="faq-question"
+                className="w-full flex items-center justify-between gap-4 py-5 bg-transparent border-none cursor-pointer text-[1.05rem] font-semibold text-[color:var(--ocean-dark)] text-left font-[inherit] dark:text-heading-dark"
                 onClick={() => toggle(i)}
                 aria-expanded={openIndex === i}
               >
                 <span>{item.q}</span>
-                <span className="faq-icon">+</span>
+                <span className={`shrink-0 text-[1.4rem] font-normal transition-transform duration-300 text-[color:var(--muted)]${openIndex === i ? " rotate-45" : ""}`}>+</span>
               </button>
-              <div className="faq-answer">
-                <p>{item.a}</p>
+              <div
+                className="overflow-hidden transition-[max-height] duration-[350ms] ease-[ease]"
+                style={{ maxHeight: openIndex === i ? "600px" : "0px" }}
+              >
+                <p className="m-0 mb-5 text-[color:var(--muted)] leading-[1.75] text-[0.97rem]">{item.a}</p>
               </div>
             </div>
           ))}

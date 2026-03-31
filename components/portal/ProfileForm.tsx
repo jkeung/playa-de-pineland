@@ -51,9 +51,9 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
   const [selectedLevel, setSelectedLevel] = useState(profile.level || "B");
 
   return (
-    <form action={formAction} className="profile-form">
-      <div className="portal-form-group">
-        <label htmlFor="display_name">Display Name</label>
+    <form action={formAction} className="flex flex-col gap-[18px]">
+      <div className="flex flex-col gap-[6px]">
+        <label htmlFor="display_name" className="text-[0.9rem] font-semibold text-[color:var(--text)]">Display Name</label>
         <input
           id="display_name"
           name="display_name"
@@ -64,8 +64,8 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         />
       </div>
 
-      <div className="portal-form-group">
-        <label htmlFor="phone">Phone</label>
+      <div className="flex flex-col gap-[6px]">
+        <label htmlFor="phone" className="text-[0.9rem] font-semibold text-[color:var(--text)]">Phone</label>
         <input
           id="phone"
           name="phone"
@@ -77,8 +77,8 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         />
       </div>
 
-      <div className="portal-form-group">
-        <label>Skill Level</label>
+      <div className="flex flex-col gap-[6px]">
+        <label className="text-[0.9rem] font-semibold text-[color:var(--text)]">Skill Level</label>
         <input type="hidden" name="level" value={selectedLevel} />
         <div className="level-picker">
           {levels.map((level) => (
@@ -98,20 +98,22 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         </div>
       </div>
 
-      <div className="portal-form-group">
-        <label htmlFor="bio">Bio</label>
+      <div className="flex flex-col gap-[6px]">
+        <label htmlFor="bio" className="text-[0.9rem] font-semibold text-[color:var(--text)]">Bio</label>
         <textarea
           id="bio"
           name="bio"
           defaultValue={profile.bio}
-          className="portal-form-input portal-form-textarea"
+          className="portal-form-input resize-y min-h-[100px]"
           placeholder="Tell us about your volleyball journey..."
           rows={4}
         />
       </div>
 
       {state?.error && (
-        <div className="auth-error">{state.error}</div>
+        <div className="py-3 px-4 rounded-xl bg-[rgba(220,38,38,0.08)] border border-[rgba(220,38,38,0.2)] text-[#dc2626] text-[0.9rem] dark:bg-[rgba(220,38,38,0.12)] dark:border-[rgba(220,38,38,0.25)] dark:text-[#f87171]">
+          {state.error}
+        </div>
       )}
 
       <button type="submit" className="btn btn-primary" disabled={pending}>

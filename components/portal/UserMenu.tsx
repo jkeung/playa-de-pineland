@@ -20,14 +20,14 @@ export default function UserMenu() {
 
   if (user) {
     return (
-      <Link href="/portal" className="btn btn-secondary user-menu-btn">
+      <Link href="/portal" className="btn btn-secondary !text-[0.85rem] !py-[6px] !px-4 no-underline">
         My Portal
       </Link>
     );
   }
 
   return (
-    <Link href="/portal/login" className="btn btn-secondary user-menu-btn">
+    <Link href="/portal/login" className="btn btn-secondary !text-[0.85rem] !py-[6px] !px-4 no-underline">
       Sign In
     </Link>
   );

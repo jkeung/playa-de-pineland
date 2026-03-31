@@ -80,37 +80,40 @@ export default function Weather() {
 
   if (!current) {
     return (
-      <div className="weather-widget">
-        <div className="weather-main">
-          <span className="weather-icon">🌤️</span>
-          <span className="weather-temp">--°F</span>
+      <div className="inline-flex flex-col gap-[6px] py-[14px] px-[18px] bg-[rgba(248,250,244,0.72)] border border-[rgba(255,255,255,0.36)] backdrop-blur-[14px] rounded-[16px] shadow-[0_8px_20px_rgba(8,57,72,0.06)] mb-2 text-[0.88rem] dark:bg-[rgba(30,35,40,0.72)] dark:border-[rgba(255,255,255,0.08)]">
+        <div className="flex items-center gap-2">
+          <span className="text-[1.5rem]">🌤️</span>
+          <span className="text-[1.4rem] font-extrabold text-[color:var(--ocean-dark)] dark:text-heading-dark">--°F</span>
         </div>
-        <div className="weather-location">📍 Fairfax, VA</div>
+        <div className="text-[color:var(--muted)] text-[0.8rem]">📍 Fairfax, VA</div>
       </div>
     );
   }
 
   return (
-    <div className="weather-widget">
-      <div className="weather-main">
-        <span className="weather-icon">{condition.icon}</span>
-        <span className="weather-temp">{current.temp}°F</span>
+    <div className="inline-flex flex-col gap-[6px] py-[14px] px-[18px] bg-[rgba(248,250,244,0.72)] border border-[rgba(255,255,255,0.36)] backdrop-blur-[14px] rounded-[16px] shadow-[0_8px_20px_rgba(8,57,72,0.06)] mb-2 text-[0.88rem] dark:bg-[rgba(30,35,40,0.72)] dark:border-[rgba(255,255,255,0.08)]">
+      <div className="flex items-center gap-2">
+        <span className="text-[1.5rem]">{condition.icon}</span>
+        <span className="text-[1.4rem] font-extrabold text-[color:var(--ocean-dark)] dark:text-heading-dark">{current.temp}°F</span>
       </div>
-      <div className="weather-details">
+      <div className="flex gap-3 text-[color:var(--muted)] text-[0.82rem]">
         <span>{condition.label}</span>
         <span>💧 {current.humidity}%</span>
         <span>💨 {current.windSpeed} mph</span>
       </div>
-      <div className="weather-location">📍 Fairfax, VA</div>
-      <div className="weather-forecast">
+      <div className="text-[color:var(--muted)] text-[0.8rem]">📍 Fairfax, VA</div>
+      <div className="flex gap-[2px] mt-[10px] pt-[10px] border-t border-[rgba(8,57,72,0.08)] dark:border-[rgba(255,255,255,0.08)]">
         {forecast.map((day, i) => {
           const dayCondition = weatherCodes[day.weatherCode] || { icon: "🌤️", label: "Clear" };
           return (
-            <div key={day.date} className={`weather-forecast-day${i === 0 ? " weather-forecast-day--today" : ""}`}>
-              <span className="weather-forecast-label">{i === 0 ? "Today" : day.dayName}</span>
-              <span className="weather-forecast-icon">{dayCondition.icon}</span>
-              <span className="weather-forecast-temps">
-                <strong>{day.high}°</strong> <span>{day.low}°</span>
+            <div
+              key={day.date}
+              className={`flex flex-col items-center gap-1 py-1 px-[6px] rounded-[10px] min-w-[42px]${i === 0 ? " bg-[rgba(30,107,72,0.08)] dark:bg-[rgba(255,255,255,0.06)]" : ""}`}
+            >
+              <span className="text-[0.7rem] font-semibold text-[color:var(--muted)] uppercase tracking-[0.02em]">{i === 0 ? "Today" : day.dayName}</span>
+              <span className="text-[1rem] leading-none">{dayCondition.icon}</span>
+              <span className="text-[0.72rem] text-[color:var(--muted)]">
+                <strong className="text-[color:var(--text)] font-bold dark:text-heading-dark">{day.high}°</strong> <span>{day.low}°</span>
               </span>
             </div>
           );

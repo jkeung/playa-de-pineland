@@ -24,27 +24,27 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="section">
+    <section className="pt-[42px] pb-[22px]">
       <div className="container">
-        <div className="section-header">
+        <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
-            <h2>What Players Say</h2>
-            <p>
+            <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-heading-dark">What Players Say</h2>
+            <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
               Don&apos;t just take our word for it — hear from the community
               that keeps coming back.
             </p>
           </div>
         </div>
 
-        <div className="cards">
+        <div className="grid grid-cols-3 gap-[18px] max-lg:grid-cols-2 max-sm:grid-cols-1">
           {testimonials.map((t) => (
-            <div className="card testimonial-card" key={t.name}>
-              <p className="testimonial-quote">&ldquo;{t.quote}&rdquo;</p>
-              <div className="testimonial-author">
-                <div className="avatar">{t.initials}</div>
+            <div className="card flex flex-col justify-between" key={t.name}>
+              <p className="italic leading-[1.75] text-[color:var(--muted)] text-[0.97rem] m-0 mb-[18px]">&ldquo;{t.quote}&rdquo;</p>
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-[linear-gradient(135deg,var(--ocean),var(--sunset))] grid place-items-center text-white font-bold text-[0.85rem] shrink-0">{t.initials}</div>
                 <div>
-                  <strong className="testimonial-name">{t.name}</strong>
-                  <span className="testimonial-detail">{t.detail}</span>
+                  <strong className="block text-[0.95rem] text-[color:var(--ocean-dark)] dark:text-heading-dark">{t.name}</strong>
+                  <span className="block text-[0.85rem] text-[color:var(--muted)]">{t.detail}</span>
                 </div>
               </div>
             </div>

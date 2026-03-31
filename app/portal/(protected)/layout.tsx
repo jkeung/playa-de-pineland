@@ -23,7 +23,7 @@ export default async function ProtectedLayout({
   return (
     <>
       <PortalNav displayName={profile?.display_name || ""} />
-      <main className="portal-main">
+      <main className="pt-9 pb-[60px] min-h-[calc(100vh-64px)]">
         <div className="container">
           {children}
         </div>

@@ -10,7 +10,7 @@ Started as a single `index.html` file, now a full **Next.js 15** app with a mark
 
 **Stack:** Next.js 15 (App Router) + React 19 + TypeScript + Supabase (auth + Postgres)
 
-**Layout approach:** CSS Grid + Flexbox. Responsive at 980px (tablet) and 720px (mobile). All styles in a single `globals.css` — no CSS modules or Tailwind.
+**Layout approach:** Tailwind CSS v4 for inline utilities + retained custom CSS in `globals.css` (~1,050 lines). Responsive at 980px (`lg:`), 720px (`md:`), and 600px (`sm:`) via custom breakpoints. Dark mode uses `dark:` variant mapped to `[data-theme="dark"]`.
 
 **Authentication flow:**
 - Supabase Auth handles email/password sign-up and login
@@ -29,7 +29,7 @@ Started as a single `index.html` file, now a full **Next.js 15** app with a mark
 ```
 app/
   layout.tsx              # Root: html, body, theme script, globals.css
-  globals.css             # All styles (~2800 lines)
+  globals.css             # Tailwind config + retained custom CSS (~1,050 lines)
   (marketing)/
     layout.tsx            # Marketing shell: Navbar + Footer + BackToTop
     page.tsx              # Home page with all sections
@@ -72,7 +72,8 @@ middleware.ts             # Next.js middleware entry point
 | TypeScript | Type safety |
 | Supabase | Auth + Postgres + RLS in one service, generous free tier |
 | `@supabase/ssr` | Cookie-based session management for SSR |
-| CSS Custom Properties | Theming consistency, dark mode |
+| Tailwind CSS v4 | Utility-first styling — theme colors, dark mode, breakpoints configured in `globals.css` `@theme` block. Preflight disabled (only theme + utilities imported) to coexist with existing CSS |
+| CSS Custom Properties | Theming consistency, dark mode (retained alongside Tailwind theme tokens) |
 | CSS Grid/Flexbox | Responsive layouts |
 | Calendly (external) | Booking/scheduling integration |
 | Open-Meteo API | Free weather data — no API key needed, client-side fetch |
@@ -123,7 +124,17 @@ The hero illustration is entirely CSS — no images or SVGs:
 
 - **Marketing and portal forms need different styles.** The marketing `.form-input` class uses white text for dark backgrounds (contact section). The portal needs `.portal-form-input` with `var(--text)` color for card backgrounds. Don't reuse the marketing form class in the portal.
 
-- **Single globals.css works at this scale.** ~2800 lines, well-organized with section comments. No need for CSS modules yet, but if the portal grows significantly, consider splitting.
+- **Single globals.css works at this scale.** ~1,050 lines after Tailwind migration (down from ~3,100). Contains Tailwind config (`@theme`, `@custom-variant`), CSS variables, base resets, shared classes (`.btn`, `.card`, `.container`), beach scene CSS art, keyframe animations, pseudo-element styles (`li::before` for pricing/progression/rules lists), schedule/progression color variants, announcement styling, form inputs with complex states, and the level picker.
+
+- **Tailwind v4 migration: disable preflight.** The biggest lesson: `@import "tailwindcss"` includes a preflight CSS reset that sets `margin: 0; padding: 0; border: 0 solid` on ALL elements — this completely destroys existing styles. Instead use `@import "tailwindcss/theme"` and `@import "tailwindcss/utilities"` to skip the reset. This lets Tailwind utilities coexist with hand-written CSS.
+
+- **Tailwind v4 uses `@theme` not `tailwind.config.js`.** Config lives directly in CSS. Custom breakpoints set via `--breakpoint-sm/md/lg`. Colors via `--color-*`. No separate config file needed.
+
+- **CSS variable colors in Tailwind need `text-[color:var(--xyz)]`.** Just `text-ocean-dark` doesn't work for CSS variables — you need the full `text-[color:var(--ocean-dark)]` syntax. Same for backgrounds: `bg-[var(--card)]`.
+
+- **`max-*:` variants for mobile-down styles.** Since the original CSS used `max-width` media queries and Tailwind is mobile-first, use `max-sm:`, `max-md:`, `max-lg:` for styles that only apply below breakpoints.
+
+- **Keep pseudo-element styles as CSS.** `::before`, `::after`, `::placeholder`, `:focus` with complex styles, and dynamically-applied color variants (schedule cells, progression badges, announcement badges) are better left as CSS classes. Tailwind's `before:` variants exist but are unwieldy for content-generating pseudos.
 
 - **Engine compatibility with yarn.** Node v23 conflicts with some eslint packages. Use `--ignore-engines` flag with yarn when installing.
 
