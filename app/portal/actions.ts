@@ -146,3 +146,43 @@ export async function updateProfile(prevState: { error?: string; success?: boole
   revalidatePath("/portal", "layout");
   redirect("/portal");
 }
+
+
+export async function registerForClass(classSessionId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/portal/login');
+  }
+
+  const { error } = await supabase.from('class_registrations').insert({
+    class_session_id: classSessionId,
+    user_id: user.id,
+  });
+
+  if (error && !error.message.toLowerCase().includes('duplicate')) {
+    redirect(`/portal/book?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/portal/book');
+  redirect('/portal/book');
+}
+
+export async function cancelClassRegistration(classSessionId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/portal/login');
+  }
+
+  await supabase
+    .from('class_registrations')
+    .delete()
+    .eq('class_session_id', classSessionId)
+    .eq('user_id', user.id);
+
+  revalidatePath('/');
+  revalidatePath('/portal/book');
+  redirect('/portal/book');
+}
