@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const tiers = [
   {
     name: "Open Play",
@@ -70,12 +72,12 @@ export default function Pricing() {
                   <li key={f}>{f}</li>
                 ))}
               </ul>
-              <a
+              <Link
                 className={`btn mt-auto w-full ${tier.popular ? "btn-primary" : "btn-secondary"}`}
-                href="#booking"
+                href={`/portal/book?focus=${encodeURIComponent(tier.name)}`}
               >
                 Book Now
-              </a>
+              </Link>
             </div>
           ))}
         </div>
