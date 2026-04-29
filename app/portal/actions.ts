@@ -5,6 +5,53 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
+function getDayOfWeek(date: string) {
+  return new Date(`${date}T12:00:00`).getDay();
+}
+
+function getClassSessionPayload(formData: FormData) {
+  const sessionDate = formData.get("session_date") as string;
+
+  return {
+    title: formData.get("title") as string,
+    description: (formData.get("description") as string) || "",
+    session_date: sessionDate,
+    day_of_week: getDayOfWeek(sessionDate),
+    start_time: formData.get("start_time") as string,
+    level: formData.get("level") as string,
+    capacity: Number(formData.get("capacity")),
+    is_active: formData.get("is_active") === "on",
+  };
+}
+
+function parseTags(value: FormDataEntryValue | null) {
+  return String(value ?? "")
+    .split(",")
+    .map((tag) => tag.trim().toLowerCase())
+    .filter(Boolean)
+    .filter((tag, index, tags) => tags.indexOf(tag) === index);
+}
+
+async function ensureAdmin() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/portal/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    redirect("/portal");
+  }
+
+  return supabase;
+}
+
 export async function loginWithProvider(provider: "google" | "facebook" | "apple") {
   const supabase = await createClient();
   const origin = process.env.NEXT_PUBLIC_SITE_URL || (await headers()).get("origin");
@@ -147,6 +194,84 @@ export async function updateProfile(prevState: { error?: string; success?: boole
   redirect("/portal");
 }
 
+export async function createJournalEntry(prevState: { error?: string } | null, formData: FormData) {
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "Not authenticated" };
+  }
+
+  const body = String(formData.get("body") ?? "").trim();
+  if (!body) {
+    return { error: "Journal entry cannot be empty" };
+  }
+
+  const { error } = await supabase.from("journal_entries").insert({
+    user_id: user.id,
+    entry_date: formData.get("entry_date") as string,
+    title: (formData.get("title") as string) || "",
+    body,
+    tags: parseTags(formData.get("tags")),
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/portal");
+  redirect("/portal");
+}
+
+export async function updateJournalEntry(entryId: string, formData: FormData) {
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/portal/login");
+  }
+
+  const body = String(formData.get("body") ?? "").trim();
+  if (!body) {
+    redirect("/portal?journal_error=Journal%20entry%20cannot%20be%20empty");
+  }
+
+  const { error } = await supabase
+    .from("journal_entries")
+    .update({
+      entry_date: formData.get("entry_date") as string,
+      title: (formData.get("title") as string) || "",
+      body,
+      tags: parseTags(formData.get("tags")),
+    })
+    .eq("id", entryId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    redirect(`/portal?journal_error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/portal");
+  redirect("/portal");
+}
+
+export async function deleteJournalEntry(entryId: string) {
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/portal/login");
+  }
+
+  await supabase
+    .from("journal_entries")
+    .delete()
+    .eq("id", entryId)
+    .eq("user_id", user.id);
+
+  revalidatePath("/portal");
+}
+
 
 export async function registerForClass(classSessionId: string) {
   const supabase = await createClient();
@@ -205,31 +330,24 @@ export async function cancelClassRegistration(classSessionId: string) {
 
 
 export async function createClassSession(formData: FormData) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    redirect("/portal/login");
+  const supabase = await ensureAdmin();
+  const dates = formData
+    .getAll("session_dates")
+    .map((date) => String(date))
+    .filter(Boolean);
+  const sessionDates = dates.length ? dates : [String(formData.get("session_date") ?? "")].filter(Boolean);
+
+  if (!sessionDates.length) {
+    redirect("/portal/classes?error=Choose%20at%20least%20one%20date");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("is_admin")
-    .eq("id", user.id)
-    .single();
+  const sessions = sessionDates.map((sessionDate) => ({
+    ...getClassSessionPayload(formData),
+    session_date: sessionDate,
+    day_of_week: getDayOfWeek(sessionDate),
+  }));
 
-  if (!profile?.is_admin) {
-    redirect("/portal");
-  }
-
-  const { error } = await supabase.from("class_sessions").insert({
-    title: formData.get("title") as string,
-    description: (formData.get("description") as string) || "",
-    day_of_week: Number(formData.get("day_of_week")),
-    start_time: formData.get("start_time") as string,
-    level: formData.get("level") as string,
-    capacity: Number(formData.get("capacity")),
-    is_active: formData.get("is_active") === "on",
-  });
+  const { error } = await supabase.from("class_sessions").insert(sessions);
 
   if (error) {
     redirect(`/portal/classes?error=${encodeURIComponent(error.message)}`);
@@ -241,22 +359,59 @@ export async function createClassSession(formData: FormData) {
   redirect("/portal/classes");
 }
 
+export async function updateClassSession(classSessionId: string, formData: FormData) {
+  const supabase = await ensureAdmin();
+  const capacity = Number(formData.get("capacity"));
+
+  const { count } = await supabase
+    .from("class_registrations")
+    .select("id", { count: "exact", head: true })
+    .eq("class_session_id", classSessionId);
+
+  if ((count ?? 0) > capacity) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent("Capacity cannot be below current registrations")}`);
+  }
+
+  const { error } = await supabase
+    .from("class_sessions")
+    .update(getClassSessionPayload(formData))
+    .eq("id", classSessionId);
+
+  if (error) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+  redirect(`/portal/classes?selected=${classSessionId}`);
+}
+
 export async function deleteClassSession(classSessionId: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("is_admin")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile?.is_admin) return;
+  const supabase = await ensureAdmin();
 
   await supabase.from("class_sessions").delete().eq("id", classSessionId);
 
   revalidatePath("/");
   revalidatePath("/portal/book");
   revalidatePath("/portal/classes");
+  redirect("/portal/classes");
+}
+
+export async function deleteClassRegistration(registrationId: string, classSessionId: string) {
+  const supabase = await ensureAdmin();
+
+  const { error } = await supabase
+    .from("class_registrations")
+    .delete()
+    .eq("id", registrationId);
+
+  if (error) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+  redirect(`/portal/classes?selected=${classSessionId}`);
 }

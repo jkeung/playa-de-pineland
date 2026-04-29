@@ -13,7 +13,7 @@ const levels = [
       "You're learning the basics of beach doubles — touches are inconsistent, reading your partner and the opposing team is still developing, and moving in sand feels new.",
     recommended: "Open Play – Beginner, Group Clinics",
     cta: "Get Started",
-    ctaHref: "#pricing",
+    ctaHref: "#booking",
   },
   {
     tier: "BB",
@@ -29,7 +29,7 @@ const levels = [
       "You and your partner move as a unit — you communicate on defense, split the court effectively, and can run plays off a good pass.",
     recommended: "Group Clinics",
     cta: "Level Up",
-    ctaHref: "#pricing",
+    ctaHref: "#booking",
   },
   {
     tier: "A",
@@ -45,7 +45,7 @@ const levels = [
       "You execute plays and read the game well — you use hand signals, adjust your defensive positioning based on the block, and can place shots around defenders.",
     recommended: "Private Lessons, Group Clinics",
     cta: "Train",
-    ctaHref: "#pricing",
+    ctaHref: "#booking",
   },
   {
     tier: "AA",
@@ -77,7 +77,7 @@ const levels = [
       "The highest tier — former or current pros, D1 beach athletes, and players who compete at the national or international level. Every touch is intentional.",
     recommended: "Private Lessons, Tournament Prep",
     cta: "Go Pro",
-    ctaHref: "#pricing",
+    ctaHref: "#booking",
   },
 ];
 

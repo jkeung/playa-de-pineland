@@ -7,7 +7,6 @@ import Testimonials from "@/components/Testimonials";
 import Coaches from "@/components/Coaches";
 import Gallery from "@/components/Gallery";
 import Events from "@/components/Events";
-import Pricing from "@/components/Pricing";
 import BookingCalendly from "@/components/BookingCalendly";
 import Schedule from "@/components/Schedule";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -29,7 +28,6 @@ export default function Home() {
       {/* <ScrollReveal><Coaches /></ScrollReveal> */}
       <ScrollReveal><Gallery /></ScrollReveal>
       <ScrollReveal><Events /></ScrollReveal>
-      <ScrollReveal><Pricing /></ScrollReveal>
       <ScrollReveal><Schedule /></ScrollReveal>
       <ScrollReveal><BookingCalendly /></ScrollReveal>
     </>

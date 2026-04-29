@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { deleteAnnouncement } from "@/app/portal/actions";
+import JournalForm from "@/components/portal/JournalForm";
 
 const levelLabels: Record<string, string> = {
   B: "Beginner",
@@ -53,6 +54,13 @@ export default async function PortalDashboard() {
     .order("pinned", { ascending: false })
     .order("created_at", { ascending: false })
     .limit(5);
+
+  const { data: journalEntries } = await supabase
+    .from("journal_entries")
+    .select("id,entry_date,title,body,tags,created_at")
+    .eq("user_id", user!.id)
+    .order("entry_date", { ascending: false })
+    .order("created_at", { ascending: false });
 
   const level = profile?.level || "B";
   const isAdmin = profile?.is_admin || false;
@@ -149,6 +157,8 @@ export default async function PortalDashboard() {
           </div>
         </div>
       </div>
+
+      <JournalForm entries={journalEntries ?? []} />
     </div>
   );
 }
