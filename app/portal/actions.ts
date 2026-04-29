@@ -146,3 +146,59 @@ export async function updateProfile(prevState: { error?: string; success?: boole
   revalidatePath("/portal", "layout");
   redirect("/portal");
 }
+
+
+export async function registerForClass(classSessionId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/portal/login');
+  }
+
+  const { data: session } = await supabase
+    .from('class_sessions')
+    .select('id, capacity, class_registrations!left(id)')
+    .eq('id', classSessionId)
+    .eq('is_active', true)
+    .single();
+
+  if (!session) {
+    redirect('/portal/book?error=Class%20not%20found');
+  }
+
+  const currentCount = (session.class_registrations ?? []).length;
+  if (currentCount >= session.capacity) {
+    redirect('/portal/book?error=Class%20is%20full');
+  }
+
+  const { error } = await supabase.from('class_registrations').insert({
+    class_session_id: classSessionId,
+    user_id: user.id,
+  });
+
+  if (error && !error.message.toLowerCase().includes('duplicate')) {
+    redirect(`/portal/book?error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/portal/book');
+  redirect('/portal/book');
+}
+
+export async function cancelClassRegistration(classSessionId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/portal/login');
+  }
+
+  await supabase
+    .from('class_registrations')
+    .delete()
+    .eq('class_session_id', classSessionId)
+    .eq('user_id', user.id);
+
+  revalidatePath('/');
+  revalidatePath('/portal/book');
+  redirect('/portal/book');
+}
