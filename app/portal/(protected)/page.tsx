@@ -131,6 +131,11 @@ export default async function PortalDashboard() {
             <Link href="/portal/book" className="btn btn-primary text-center no-underline !text-[0.9rem] !py-[10px] !px-[18px]">
               Book a Session
             </Link>
+            {isAdmin && (
+              <Link href="/portal/classes" className="btn btn-secondary text-center no-underline !text-[0.9rem] !py-[10px] !px-[18px]">
+                Manage Calendar
+              </Link>
+            )}
           </div>
         </div>
 
