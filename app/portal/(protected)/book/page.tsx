@@ -4,13 +4,21 @@ import { cancelClassRegistration, registerForClass } from "@/app/portal/actions"
 const dayLabels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const levelLabels: Record<string, string> = { B: "Beginner", BB: "Intermediate", A: "Advanced", AA: "Elite" };
 
-export default async function BookSession() {
+export default async function BookSession({
+  searchParams,
+}: {
+  searchParams?: Promise<{ session?: string; focus?: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const selectedSessionId = resolvedSearchParams?.session;
+  const focus = resolvedSearchParams?.focus?.toLowerCase();
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,description,day_of_week,start_time,level,capacity,class_registrations(user_id,profiles(display_name))")
+    .select("id,title,description,day_of_week,start_time,level,capacity,class_registrations(user_id,profiles!class_registrations_user_id_fkey(display_name))")
     .eq("is_active", true)
     .order("day_of_week", { ascending: true });
 
@@ -28,9 +36,11 @@ export default async function BookSession() {
           const attendees = (session.class_registrations ?? []).map((r: any) => r.profiles?.display_name || "Player");
           const isRegistered = (session.class_registrations ?? []).some((r: any) => r.user_id === user?.id);
           const isFull = attendees.length >= session.capacity;
+          const matchesFocus = focus ? session.title.toLowerCase().includes(focus) : false;
+          const isSelected = selectedSessionId === session.id || (!selectedSessionId && matchesFocus);
 
           return (
-            <article key={session.id} className="card p-5">
+            <article key={session.id} className={`card p-5 ${isSelected ? "ring-2 ring-[var(--sunset)]" : ""}`}>
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <h2 className="m-0 mb-1 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">{session.title}</h2>

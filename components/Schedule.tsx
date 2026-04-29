@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 type Session = {
@@ -29,7 +30,7 @@ export default async function Schedule() {
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,day_of_week,start_time,level,class_registrations(user_id,profiles(display_name))")
+    .select("id,title,day_of_week,start_time,level,class_registrations(user_id,profiles!class_registrations_user_id_fkey(display_name))")
     .eq("is_active", true);
 
   const schedule: Record<string, Record<string, Session>> = {};
@@ -88,9 +89,12 @@ export default async function Schedule() {
 
                     return (
                       <td key={day} className={`py-3 px-[10px] text-center border border-[rgba(8,57,72,0.05)] rounded-lg schedule-cell--${levelClass}`}>
-                        <strong className="block text-[0.75rem] mb-[2px] whitespace-nowrap">{s.label}</strong>
-                        <span className={`text-[0.78rem] opacity-70 schedule-level schedule-level--${levelClass}`}>{s.level}</span>
-                        <p className="m-0 mt-2 text-[0.75rem] text-[color:var(--muted)]">{s.attendees.length ? s.attendees.join(", ") : "No signups yet"}</p>
+                        <Link href={`/portal/book?session=${s.id}`} className="block no-underline text-inherit">
+                          <strong className="block text-[0.75rem] mb-[2px] whitespace-nowrap">{s.label}</strong>
+                          <span className={`text-[0.78rem] opacity-70 schedule-level schedule-level--${levelClass}`}>{s.level}</span>
+                          <p className="m-0 mt-2 text-[0.75rem] text-[color:var(--muted)]">{s.attendees.length ? s.attendees.join(", ") : "No signups yet"}</p>
+                          <span className="text-[0.72rem] underline">Book this class</span>
+                        </Link>
                       </td>
                     );
                   })}

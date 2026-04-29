@@ -155,6 +155,22 @@ export async function registerForClass(classSessionId: string) {
     redirect('/portal/login');
   }
 
+  const { data: session } = await supabase
+    .from('class_sessions')
+    .select('id, capacity, class_registrations!left(id)')
+    .eq('id', classSessionId)
+    .eq('is_active', true)
+    .single();
+
+  if (!session) {
+    redirect('/portal/book?error=Class%20not%20found');
+  }
+
+  const currentCount = (session.class_registrations ?? []).length;
+  if (currentCount >= session.capacity) {
+    redirect('/portal/book?error=Class%20is%20full');
+  }
+
   const { error } = await supabase.from('class_registrations').insert({
     class_session_id: classSessionId,
     user_id: user.id,
@@ -185,4 +201,56 @@ export async function cancelClassRegistration(classSessionId: string) {
   revalidatePath('/');
   revalidatePath('/portal/book');
   redirect('/portal/book');
+}
+
+
+export async function createClassSession(prevState: { error?: string } | null, formData: FormData) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.is_admin) return { error: "Only admins can manage classes" };
+
+  const { error } = await supabase.from("class_sessions").insert({
+    title: formData.get("title") as string,
+    description: (formData.get("description") as string) || "",
+    day_of_week: Number(formData.get("day_of_week")),
+    start_time: formData.get("start_time") as string,
+    level: formData.get("level") as string,
+    capacity: Number(formData.get("capacity")),
+    is_active: formData.get("is_active") === "on",
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+  redirect("/portal/classes");
+}
+
+export async function deleteClassSession(classSessionId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.is_admin) return;
+
+  await supabase.from("class_sessions").delete().eq("id", classSessionId);
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
 }
