@@ -517,6 +517,52 @@ img {
   font-style: italic;
 }
 
+.schedule-calendar {
+  color: var(--text);
+}
+
+.schedule-calendar-header {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.schedule-calendar-day {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(8, 57, 72, 0.08);
+}
+
+.schedule-calendar-day--today {
+  border-color: var(--sunset);
+  box-shadow: inset 0 0 0 1px rgba(255, 138, 91, 0.42);
+}
+
+.schedule-event-card {
+  position: relative;
+}
+
+.schedule-event-detail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  display: none;
+  min-width: 220px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(248, 250, 244, 0.98);
+  color: var(--text);
+  box-shadow: 0 14px 34px rgba(8, 57, 72, 0.18);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.schedule-event-card:hover .schedule-event-detail,
+.schedule-event-card:focus-visible .schedule-event-detail {
+  display: block;
+}
+
 /* ── Schedule Level Badges ── */
 
 .schedule-level {
@@ -543,6 +589,56 @@ img {
 .schedule-level--advanced {
   background: rgba(220, 53, 69, 0.15);
   color: #b91c1c;
+}
+
+[data-theme="dark"] .schedule-calendar-header {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .schedule-calendar-day {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .schedule-calendar-day--today {
+  border-color: rgba(255, 138, 91, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(255, 138, 91, 0.35);
+}
+
+[data-theme="dark"] .schedule-event-detail {
+  background: rgba(30, 35, 40, 0.98);
+  color: var(--text);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme="dark"] .schedule-cell--beginner {
+  background: rgba(46, 160, 67, 0.18);
+  color: #b7f3c5;
+}
+
+[data-theme="dark"] .schedule-cell--intermediate {
+  background: rgba(99, 102, 241, 0.2);
+  color: #d4d6ff;
+}
+
+[data-theme="dark"] .schedule-cell--advanced {
+  background: rgba(220, 53, 69, 0.18);
+  color: #ffc2c8;
+}
+
+[data-theme="dark"] .schedule-level--beginner {
+  background: rgba(46, 160, 67, 0.22);
+  color: #b7f3c5;
+}
+
+[data-theme="dark"] .schedule-level--intermediate {
+  background: rgba(99, 102, 241, 0.24);
+  color: #d4d6ff;
+}
+
+[data-theme="dark"] .schedule-level--advanced {
+  background: rgba(220, 53, 69, 0.22);
+  color: #ffc2c8;
 }
 
 /* ── Schedule Extra ── */
