@@ -202,3 +202,55 @@ export async function cancelClassRegistration(classSessionId: string) {
   revalidatePath('/portal/book');
   redirect('/portal/book');
 }
+
+
+export async function createClassSession(prevState: { error?: string } | null, formData: FormData) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.is_admin) return { error: "Only admins can manage classes" };
+
+  const { error } = await supabase.from("class_sessions").insert({
+    title: formData.get("title") as string,
+    description: (formData.get("description") as string) || "",
+    day_of_week: Number(formData.get("day_of_week")),
+    start_time: formData.get("start_time") as string,
+    level: formData.get("level") as string,
+    capacity: Number(formData.get("capacity")),
+    is_active: formData.get("is_active") === "on",
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+  redirect("/portal/classes");
+}
+
+export async function deleteClassSession(classSessionId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.is_admin) return;
+
+  await supabase.from("class_sessions").delete().eq("id", classSessionId);
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+}
