@@ -4,6 +4,15 @@ import { cancelClassRegistration, registerForClass } from "@/app/portal/actions"
 const dayLabels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const levelLabels: Record<string, string> = { B: "Beginner", BB: "Intermediate", A: "Advanced", AA: "Elite" };
 
+function formatStartTime(startTime: string) {
+  const [hours = "0", minutes = "0"] = startTime.split(":");
+  const hour = Number(hours);
+  const suffix = hour >= 12 ? "PM" : "AM";
+  const displayHour = hour % 12 || 12;
+
+  return `${displayHour}:${minutes.padStart(2, "0")} ${suffix}`;
+}
+
 export default async function BookSession({
   searchParams,
 }: {
@@ -18,9 +27,30 @@ export default async function BookSession({
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,description,day_of_week,start_time,level,capacity,class_registrations(user_id,profiles!class_registrations_user_id_fkey(display_name))")
+    .select("id,title,description,day_of_week,start_time,level,capacity")
     .eq("is_active", true)
-    .order("day_of_week", { ascending: true });
+    .order("day_of_week", { ascending: true })
+    .order("start_time", { ascending: true });
+
+  const { data: roster } = await supabase
+    .from("class_registration_roster")
+    .select("class_session_id,display_name");
+
+  const { data: ownRegistrations } = user
+    ? await supabase
+      .from("class_registrations")
+      .select("class_session_id")
+      .eq("user_id", user.id)
+    : { data: [] };
+
+  const attendeesBySession = new Map<string, string[]>();
+  for (const registration of roster ?? []) {
+    const attendees = attendeesBySession.get(registration.class_session_id) ?? [];
+    attendees.push(registration.display_name || "Player");
+    attendeesBySession.set(registration.class_session_id, attendees);
+  }
+
+  const registeredSessionIds = new Set((ownRegistrations ?? []).map((registration) => registration.class_session_id));
 
   return (
     <div>
@@ -33,8 +63,8 @@ export default async function BookSession({
 
       <div className="grid gap-4">
         {(sessions ?? []).map((session: any) => {
-          const attendees = (session.class_registrations ?? []).map((r: any) => r.profiles?.display_name || "Player");
-          const isRegistered = (session.class_registrations ?? []).some((r: any) => r.user_id === user?.id);
+          const attendees = attendeesBySession.get(session.id) ?? [];
+          const isRegistered = registeredSessionIds.has(session.id);
           const isFull = attendees.length >= session.capacity;
           const matchesFocus = focus ? session.title.toLowerCase().includes(focus) : false;
           const isSelected = selectedSessionId === session.id || (!selectedSessionId && matchesFocus);
@@ -44,7 +74,7 @@ export default async function BookSession({
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <h2 className="m-0 mb-1 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">{session.title}</h2>
-                  <p className="m-0 text-[color:var(--muted)]">{dayLabels[session.day_of_week]} at {session.start_time.slice(0, 5)} · {levelLabels[session.level] || session.level}</p>
+                  <p className="m-0 text-[color:var(--muted)]">{dayLabels[session.day_of_week]} at {formatStartTime(session.start_time)} · {levelLabels[session.level] || session.level}</p>
                   <p className="m-0 mt-2 text-[0.95rem] text-[color:var(--muted)]">{session.description}</p>
                   <p className="m-0 mt-2 text-[0.9rem]">{attendees.length}/{session.capacity} spots filled</p>
                   <p className="m-0 mt-1 text-[0.85rem] text-[color:var(--muted)]">Players: {attendees.length ? attendees.join(", ") : "No signups yet"}</p>

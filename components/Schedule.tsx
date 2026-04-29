@@ -6,10 +6,9 @@ type Session = {
   label: string;
   level: string;
   attendees: string[];
-} | null;
+};
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
-const times = ["6:00 PM"] as const;
 
 const levelLabels: Record<string, string> = {
   B: "Beginner",
@@ -25,32 +24,61 @@ const levelColors: Record<string, string> = {
   AA: "advanced",
 };
 
+function formatStartTime(startTime: string) {
+  const [hours = "0", minutes = "0"] = startTime.split(":");
+  const hour = Number(hours);
+  const suffix = hour >= 12 ? "PM" : "AM";
+  const displayHour = hour % 12 || 12;
+
+  return `${displayHour}:${minutes.padStart(2, "0")} ${suffix}`;
+}
+
 export default async function Schedule() {
   const supabase = await createClient();
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,day_of_week,start_time,level,class_registrations(user_id,profiles!class_registrations_user_id_fkey(display_name))")
-    .eq("is_active", true);
+    .select("id,title,day_of_week,start_time,level")
+    .eq("is_active", true)
+    .order("start_time", { ascending: true })
+    .order("day_of_week", { ascending: true });
 
-  const schedule: Record<string, Record<string, Session>> = {};
+  const { data: roster } = await supabase
+    .from("class_registration_roster")
+    .select("class_session_id,display_name");
+
+  const attendeesBySession = new Map<string, string[]>();
+  for (const registration of roster ?? []) {
+    const attendees = attendeesBySession.get(registration.class_session_id) ?? [];
+    attendees.push(registration.display_name || "Player");
+    attendeesBySession.set(registration.class_session_id, attendees);
+  }
+
+  const times = Array.from(
+    new Map((sessions ?? []).map((session) => [session.start_time, formatStartTime(session.start_time)])).values()
+  );
+  const schedule: Record<string, Record<string, Session[]>> = {};
 
   for (const day of days) {
-    schedule[day] = { "6:00 PM": null };
+    schedule[day] = {};
+    for (const time of times) {
+      schedule[day][time] = [];
+    }
   }
 
   for (const session of sessions ?? []) {
     const day = days[session.day_of_week as number];
     if (!day) continue;
 
-    const attendees = ((session.class_registrations as any[]) ?? []).map((r) => r.profiles?.display_name || "Player");
+    const time = formatStartTime(session.start_time);
+    const attendees = attendeesBySession.get(session.id) ?? [];
 
-    schedule[day]["6:00 PM"] = {
+    schedule[day][time].push({
       id: session.id,
       label: session.title,
       level: levelLabels[session.level] || session.level,
       attendees,
-    };
+    });
   }
 
   return (
@@ -80,21 +108,27 @@ export default async function Schedule() {
                 <tr key={time}>
                   <td className="py-[10px] px-[14px] font-semibold text-[color:var(--muted)] whitespace-nowrap text-[0.85rem] text-center">{time}</td>
                   {days.map((day) => {
-                    const s = schedule[day]?.[time] ?? null;
-                    if (!s) {
+                    const daySessions = schedule[day]?.[time] ?? [];
+                    if (!daySessions.length) {
                       return <td key={day} className="py-3 px-[10px] text-center border border-[rgba(8,57,72,0.05)] rounded-lg schedule-cell--muted"><strong className="text-[0.75rem]">No class</strong></td>;
                     }
 
-                    const levelClass = levelColors[s.level === "Intermediate" ? "BB" : s.level === "Advanced" ? "A" : s.level === "Elite" ? "AA" : "B"];
-
                     return (
-                      <td key={day} className={`py-3 px-[10px] text-center border border-[rgba(8,57,72,0.05)] rounded-lg schedule-cell--${levelClass}`}>
-                        <Link href={`/portal/book?session=${s.id}`} className="block no-underline text-inherit">
-                          <strong className="block text-[0.75rem] mb-[2px] whitespace-nowrap">{s.label}</strong>
-                          <span className={`text-[0.78rem] opacity-70 schedule-level schedule-level--${levelClass}`}>{s.level}</span>
-                          <p className="m-0 mt-2 text-[0.75rem] text-[color:var(--muted)]">{s.attendees.length ? s.attendees.join(", ") : "No signups yet"}</p>
-                          <span className="text-[0.72rem] underline">Book this class</span>
-                        </Link>
+                      <td key={day} className="p-0 text-center border border-[rgba(8,57,72,0.05)]">
+                        <div className="grid gap-2 p-2">
+                          {daySessions.map((s) => {
+                            const levelClass = levelColors[s.level === "Intermediate" ? "BB" : s.level === "Advanced" ? "A" : s.level === "Elite" ? "AA" : "B"];
+
+                            return (
+                              <Link key={s.id} href={`/portal/book?session=${s.id}`} className={`block no-underline text-inherit rounded-lg py-3 px-[10px] schedule-cell--${levelClass}`}>
+                                <strong className="block text-[0.75rem] mb-[2px] whitespace-nowrap">{s.label}</strong>
+                                <span className={`text-[0.78rem] opacity-70 schedule-level schedule-level--${levelClass}`}>{s.level}</span>
+                                <p className="m-0 mt-2 text-[0.75rem] text-[color:var(--muted)]">{s.attendees.length ? s.attendees.join(", ") : "No signups yet"}</p>
+                                <span className="text-[0.72rem] underline">Book this class</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </td>
                     );
                   })}
