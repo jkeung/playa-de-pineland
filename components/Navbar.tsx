@@ -46,7 +46,7 @@ export default function Navbar() {
             menuOpen ? "max-md:translate-x-0" : "max-md:translate-x-full"
           }`}
         >
-          <Link href="/#training" onClick={closeMenu} className={linkClass}>Training</Link>
+          <Link href="/#training" onClick={closeMenu} className={linkClass}>About</Link>
           <Link href="/group-classes" onClick={closeMenu} className={linkClass}>Classes</Link>
           <Link href="/contact" onClick={closeMenu} className={linkClass}>Contact</Link>
           <Link href="/find-us" onClick={closeMenu} className={linkClass}>Find Us</Link>
