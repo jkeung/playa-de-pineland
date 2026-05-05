@@ -31,7 +31,7 @@ export default async function Schedule() {
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,description,session_date,start_time,level,capacity")
+    .select("id,title,description,session_date,start_time,end_time,level,capacity")
     .eq("is_active", true)
     .gte("session_date", startDate)
     .lte("session_date", endDate)
@@ -56,6 +56,7 @@ export default async function Schedule() {
     description: session.description,
     date: session.session_date,
     startTime: session.start_time,
+    endTime: session.end_time,
     level: levelLabels[session.level] || session.level,
     capacity: session.capacity,
     attendees: attendeesBySession.get(session.id) ?? [],

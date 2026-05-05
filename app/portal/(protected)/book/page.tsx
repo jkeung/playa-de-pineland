@@ -34,7 +34,7 @@ export default async function BookSession({
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,description,session_date,day_of_week,start_time,level,capacity")
+    .select("id,title,description,session_date,day_of_week,start_time,end_time,level,capacity")
     .eq("is_active", true)
     .gte("session_date", new Date().toISOString().slice(0, 10))
     .order("session_date", { ascending: true })
@@ -82,7 +82,7 @@ export default async function BookSession({
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <h2 className="m-0 mb-1 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">{session.title}</h2>
-                  <p className="m-0 text-[color:var(--muted)]">{formatSessionDate(session.session_date, session.day_of_week)} at {formatStartTime(session.start_time)} · {levelLabels[session.level] || session.level}</p>
+                  <p className="m-0 text-[color:var(--muted)]">{formatSessionDate(session.session_date, session.day_of_week)} at {formatStartTime(session.start_time)} - {formatStartTime(session.end_time)} · {levelLabels[session.level] || session.level}</p>
                   <p className="m-0 mt-2 text-[0.95rem] text-[color:var(--muted)]">{session.description}</p>
                   <p className="m-0 mt-2 text-[0.9rem]">{attendees.length}/{session.capacity} spots filled</p>
                   <p className="m-0 mt-1 text-[0.85rem] text-[color:var(--muted)]">Players: {attendees.length ? attendees.join(", ") : "No signups yet"}</p>

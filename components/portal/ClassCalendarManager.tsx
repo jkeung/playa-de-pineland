@@ -10,6 +10,7 @@ type ClassSession = {
   session_date: string;
   day_of_week: number;
   start_time: string;
+  end_time: string;
   level: string;
   capacity: number;
   is_active: boolean;
@@ -89,6 +90,11 @@ function EventFields({ session }: { session?: ClassSession }) {
         </label>
 
         <label className="grid gap-2 text-sm font-semibold">
+          End time
+          <input type="time" name="end_time" defaultValue={session?.end_time?.slice(0, 5) ?? "19:00"} required className="portal-form-input" />
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold">
           Capacity
           <select name="capacity" defaultValue={session?.capacity ?? 16} className="portal-form-input">
             {capacityOptions.map((capacity) => (
@@ -106,7 +112,7 @@ function EventFields({ session }: { session?: ClassSession }) {
           </select>
         </label>
 
-        <label className="flex items-center gap-2 self-end text-sm font-semibold min-h-[46px]">
+        <label className="flex items-center gap-2 self-end text-sm font-semibold min-h-[46px] md:col-span-2">
           <input type="checkbox" name="is_active" defaultChecked={session?.is_active ?? true} />
           Active
         </label>
@@ -129,9 +135,10 @@ export default function ClassCalendarManager({
   const today = useMemo(() => new Date(), []);
   const initialSession = sessions.find((session) => session.id === selectedSessionId) ?? sessions[0];
   const [visibleMonth, setVisibleMonth] = useState(() => parseDate(initialSession?.session_date ?? toDateInputValue(today)));
-  const [selectedDates, setSelectedDates] = useState<string[]>([toDateInputValue(today)]);
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [datePickerValue, setDatePickerValue] = useState(toDateInputValue(today));
-  const [activeSessionId, setActiveSessionId] = useState(selectedSessionId ?? initialSession?.id ?? "");
+  const [activeSessionId, setActiveSessionId] = useState(selectedSessionId ?? "");
+  const [creationNotice, setCreationNotice] = useState<string | null>(null);
 
   const activeSession = sessions.find((session) => session.id === activeSessionId);
   const activeRegistrations = activeSession ? registrationsBySession[activeSession.id] ?? [] : [];
@@ -144,6 +151,7 @@ export default function ClassCalendarManager({
     }
     return map;
   }, [sessions]);
+  const occupiedDates = useMemo(() => new Set(sessions.map((session) => session.session_date)), [sessions]);
   const monthDays = useMemo(() => buildMonthDays(visibleMonth), [visibleMonth]);
 
   function moveMonth(direction: number) {
@@ -151,6 +159,12 @@ export default function ClassCalendarManager({
   }
 
   function toggleDate(date: string) {
+    if (occupiedDates.has(date) && !selectedDates.includes(date)) {
+      setCreationNotice("That date already has an event.");
+      return;
+    }
+
+    setCreationNotice(null);
     setSelectedDates((current) => (
       current.includes(date)
         ? current.filter((selectedDate) => selectedDate !== date)
@@ -160,6 +174,13 @@ export default function ClassCalendarManager({
 
   function addDateFromPicker() {
     if (!datePickerValue) return;
+
+    if (occupiedDates.has(datePickerValue)) {
+      setCreationNotice("That date already has an event.");
+      return;
+    }
+
+    setCreationNotice(null);
     setSelectedDates((current) => (
       current.includes(datePickerValue)
         ? current
@@ -173,8 +194,8 @@ export default function ClassCalendarManager({
       <section className="card p-5">
         <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
           <div>
-            <h2 className="m-0 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">Calendar</h2>
-            <p className="m-0 mt-1 text-sm text-[color:var(--muted)]">Click events to edit. Click empty dates to create on multiple days.</p>
+            <h2 className="m-0 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">Create Dates</h2>
+            <p className="m-0 mt-1 text-sm text-[color:var(--muted)]">Use the calendar to pick dates for a new event. Click event chips separately to edit them.</p>
           </div>
           <div className="flex items-center gap-2">
             <button type="button" className="btn btn-secondary !py-2 !px-4" onClick={() => moveMonth(-1)} aria-label="Previous month">‹</button>
@@ -197,11 +218,19 @@ export default function ClassCalendarManager({
             return (
               <div
                 key={date}
-                className={`min-h-[104px] rounded-lg border p-2 text-left transition ${isCurrentMonth ? "bg-white/60 border-[rgba(8,57,72,0.1)]" : "bg-white/20 border-transparent opacity-50"} ${isSelected ? "ring-2 ring-[var(--sunset)]" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
+                onClick={() => toggleDate(date)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggleDate(date);
+                  }
+                }}
+                className={`min-h-[104px] rounded-lg border p-2 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--sunset)] ${occupiedDates.has(date) && !isSelected ? "cursor-not-allowed bg-white/35 border-[rgba(8,57,72,0.08)] opacity-70" : "cursor-pointer"} ${isCurrentMonth ? "bg-white/60 border-[rgba(8,57,72,0.1)]" : "bg-white/20 border-transparent opacity-50"} ${isSelected ? "ring-2 ring-[var(--sunset)]" : ""}`}
               >
-                <button type="button" onClick={() => toggleDate(date)} className="block w-full text-left text-sm font-bold">
-                  {day.getDate()}
-                </button>
+                <span className="block w-full text-left text-sm font-bold">{day.getDate()}</span>
                 <span className="mt-2 grid gap-1">
                   {dayEvents.slice(0, 3).map((session) => (
                     <button
@@ -214,7 +243,7 @@ export default function ClassCalendarManager({
                       }}
                       className={`rounded-md px-2 py-1 text-left text-[0.72rem] font-semibold text-white ${session.is_active ? "bg-[var(--ocean)]" : "bg-[var(--muted)]"}`}
                     >
-                      {formatTime(session.start_time)} {session.title}
+                      {formatTime(session.start_time)} - {formatTime(session.end_time)} {session.title}
                     </button>
                   ))}
                   {dayEvents.length > 3 && <span className="text-[0.72rem] text-[color:var(--muted)]">+{dayEvents.length - 3} more</span>}
@@ -229,6 +258,7 @@ export default function ClassCalendarManager({
         <section className="card p-5">
           <h2 className="m-0 mb-4 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">Create Event</h2>
           {error && <p className="mb-4 rounded-lg bg-red-500/10 p-3 text-sm text-red-700 dark:text-red-300">{error}</p>}
+          {creationNotice && <p className="mb-4 rounded-lg bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-200">{creationNotice}</p>}
           <form action={createClassSession} className="grid gap-4">
             <div className="grid gap-2">
               <label className="text-sm font-semibold">Dates</label>
@@ -236,6 +266,7 @@ export default function ClassCalendarManager({
                 <input type="date" value={datePickerValue} onChange={(event) => setDatePickerValue(event.target.value)} className="portal-form-input flex-1" />
                 <button type="button" className="btn btn-secondary !py-2 !px-4" onClick={addDateFromPicker}>Add</button>
               </div>
+              {!selectedDates.length && <p className="m-0 text-sm text-[color:var(--muted)]">No dates selected yet.</p>}
               <div className="flex flex-wrap gap-2">
                 {selectedDates.map((date) => (
                   <span key={date} className="inline-flex items-center gap-2 rounded-full bg-[rgba(30,107,72,0.12)] px-3 py-1 text-sm font-semibold">
@@ -294,7 +325,7 @@ export default function ClassCalendarManager({
               </div>
             </div>
           ) : (
-            <p className="m-0 text-sm text-[color:var(--muted)]">Select an event from the calendar to edit it.</p>
+            <p className="m-0 text-sm text-[color:var(--muted)]">Select an event chip from the calendar to edit it.</p>
           )}
         </section>
       </div>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Training() {
   return (
     <section className="pt-[42px] pb-[22px]" id="training">
@@ -28,7 +30,7 @@ export default function Training() {
             </p>
           </div>
 
-          <div className="card">
+          <div className="card flex flex-col">
             <div className="w-[52px] h-[52px] rounded-[18px] grid place-items-center bg-[linear-gradient(135deg,rgba(255,138,91,0.18),rgba(15,92,115,0.12))] mb-[18px] text-[1.3rem]">
               🌴
             </div>
@@ -39,6 +41,9 @@ export default function Training() {
               Bring a partner or a few friends for a more competitive and
               collaborative training environment.
             </p>
+            <Link className="btn btn-secondary mt-5 w-full" href="/group-classes">
+              Learn More
+            </Link>
           </div>
 
           <div className="card">

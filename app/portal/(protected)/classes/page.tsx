@@ -23,7 +23,7 @@ export default async function ClassAdminPage({
 
   const { data: sessions } = await supabase
     .from("class_sessions")
-    .select("id,title,description,session_date,day_of_week,start_time,level,capacity,is_active")
+    .select("id,title,description,session_date,day_of_week,start_time,end_time,level,capacity,is_active")
     .order("session_date", { ascending: true })
     .order("start_time", { ascending: true });
 
