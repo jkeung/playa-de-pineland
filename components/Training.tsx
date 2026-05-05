@@ -7,11 +7,11 @@ export default function Training() {
         <div className="mb-6 flex justify-between items-end gap-[18px] flex-wrap">
           <div>
             <h2 className="m-0 mb-2 text-[clamp(1.5rem,3vw,2.7rem)] text-[color:var(--ocean-dark)] tracking-[-0.03em] dark:text-[color:var(--heading-dark)]">
-              Train your way
+              About Playa de Pineland
             </h2>
             <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
-              A premium backyard training setup built for personal attention,
-              good reps, and a great atmosphere.
+              A private backyard sand court in Fairfax built for focused reps,
+              friendly competition, and a better way to play beach volleyball.
             </p>
           </div>
         </div>
@@ -22,11 +22,11 @@ export default function Training() {
               🔥
             </div>
             <h3 className="m-0 mb-[10px] text-[color:var(--ocean-dark)] text-[1.18rem] dark:text-[color:var(--heading-dark)]">
-              Private Coaching
+              Private Court
             </h3>
             <p className="m-0 text-[color:var(--muted)] leading-[1.75] text-[0.97rem]">
-              One-on-one sessions focused on fundamentals, movement, ball
-              control, decision making, and confidence on sand.
+              Train and play on a dedicated backyard sand court without the
+              crowding and interruptions of a public park.
             </p>
           </div>
 
@@ -35,14 +35,14 @@ export default function Training() {
               🌴
             </div>
             <h3 className="m-0 mb-[10px] text-[color:var(--ocean-dark)] text-[1.18rem] dark:text-[color:var(--heading-dark)]">
-              Small Group Training
+              Group Classes
             </h3>
             <p className="m-0 text-[color:var(--muted)] leading-[1.75] text-[0.97rem]">
-              Bring a partner or a few friends for a more competitive and
-              collaborative training environment.
+              Coach-led beginner and intermediate sessions with skill themes,
+              high-touch drills, partner work, and live play.
             </p>
             <Link className="btn btn-secondary mt-5 w-full" href="/group-classes">
-              Learn More
+              View Group Classes
             </Link>
           </div>
 
@@ -51,11 +51,11 @@ export default function Training() {
               ☀️
             </div>
             <h3 className="m-0 mb-[10px] text-[color:var(--ocean-dark)] text-[1.18rem] dark:text-[color:var(--heading-dark)]">
-              Backyard Experience
+              Private Coaching
             </h3>
             <p className="m-0 text-[color:var(--muted)] leading-[1.75] text-[0.97rem]">
-              More than a lesson — a relaxed, polished, destination-style
-              training experience right here in Fairfax.
+              One-on-one and small group coaching focused on fundamentals,
+              movement, ball control, and confidence on sand.
             </p>
           </div>
         </div>

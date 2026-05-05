@@ -197,18 +197,18 @@ export default function ClassCalendarManager({
             <h2 className="m-0 text-xl text-[color:var(--ocean-dark)] dark:text-[color:var(--heading-dark)]">Create Dates</h2>
             <p className="m-0 mt-1 text-sm text-[color:var(--muted)]">Use the calendar to pick dates for a new event. Click event chips separately to edit them.</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 max-sm:w-full max-sm:justify-between">
             <button type="button" className="btn btn-secondary !py-2 !px-4" onClick={() => moveMonth(-1)} aria-label="Previous month">‹</button>
-            <strong className="min-w-[160px] text-center">{monthFormatter.format(visibleMonth)}</strong>
+            <strong className="min-w-[160px] text-center max-sm:min-w-0">{monthFormatter.format(visibleMonth)}</strong>
             <button type="button" className="btn btn-secondary !py-2 !px-4" onClick={() => moveMonth(1)} aria-label="Next month">›</button>
           </div>
         </div>
 
-        <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold uppercase tracking-[0.08em] text-[color:var(--muted)] mb-2">
+        <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold uppercase tracking-[0.08em] text-[color:var(--muted)] mb-2 max-sm:hidden">
           {weekdayLabels.map((day) => <span key={day}>{day}</span>)}
         </div>
 
-        <div className="grid grid-cols-7 gap-2 max-sm:gap-1">
+        <div className="grid grid-cols-7 gap-2 max-sm:grid-cols-1">
           {monthDays.map((day) => {
             const date = toDateInputValue(day);
             const dayEvents = eventsByDate.get(date) ?? [];
@@ -228,9 +228,12 @@ export default function ClassCalendarManager({
                     toggleDate(date);
                   }
                 }}
-                className={`min-h-[104px] rounded-lg border p-2 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--sunset)] ${occupiedDates.has(date) && !isSelected ? "cursor-not-allowed bg-white/35 border-[rgba(8,57,72,0.08)] opacity-70" : "cursor-pointer"} ${isCurrentMonth ? "bg-white/60 border-[rgba(8,57,72,0.1)]" : "bg-white/20 border-transparent opacity-50"} ${isSelected ? "ring-2 ring-[var(--sunset)]" : ""}`}
+                className={`min-h-[104px] rounded-lg border p-2 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--sunset)] max-sm:min-h-0 max-sm:p-3 ${occupiedDates.has(date) && !isSelected ? "cursor-not-allowed bg-white/35 border-[rgba(8,57,72,0.08)] opacity-70" : "cursor-pointer"} ${isCurrentMonth ? "bg-white/60 border-[rgba(8,57,72,0.1)]" : "bg-white/20 border-transparent opacity-50 max-sm:hidden"} ${isSelected ? "ring-2 ring-[var(--sunset)]" : ""}`}
               >
-                <span className="block w-full text-left text-sm font-bold">{day.getDate()}</span>
+                <span className="block w-full text-left text-sm font-bold">
+                  <span className="hidden max-sm:inline">{dateFormatter.format(day)}</span>
+                  <span className="max-sm:hidden">{day.getDate()}</span>
+                </span>
                 <span className="mt-2 grid gap-1">
                   {dayEvents.slice(0, 3).map((session) => (
                     <button

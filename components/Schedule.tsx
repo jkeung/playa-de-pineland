@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import ScheduleCalendar from "@/components/ScheduleCalendar";
+import Weather from "@/components/Weather";
 
 const levelLabels: Record<string, string> = {
   B: "Beginner",
@@ -72,6 +73,7 @@ export default async function Schedule() {
               Members can sign up in the portal. Use the arrows to browse future weeks.
             </p>
           </div>
+          <Weather />
         </div>
 
         <ScheduleCalendar sessions={scheduleSessions} canShowDetails={Boolean(user)} />
