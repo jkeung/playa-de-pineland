@@ -4,7 +4,7 @@ import Location from "@/components/Location";
 export const metadata: Metadata = {
   title: "Find Us | Playa de Pineland",
   description:
-    "Directions and location info for Playa de Pineland beach volleyball courts.",
+    "Location info for Playa de Pineland, a private backyard beach volleyball court on Pineland Street in Fairfax, VA.",
 };
 
 export default function FindUsPage() {

@@ -45,8 +45,8 @@ export default function Experience() {
             Location
           </h3>
           <p className="m-0 text-[color:var(--muted)] leading-[1.75] text-[0.97rem]">
-            Private court in Fairfax, VA. Full address shared after booking to
-            keep the experience private and streamlined.
+            Private court on Pineland Street in Fairfax, VA. Full address shared
+            after booking to keep the experience private and streamlined.
           </p>
 
           <div className="grid gap-[14px] mt-[18px]">

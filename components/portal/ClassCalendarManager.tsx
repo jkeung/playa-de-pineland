@@ -43,6 +43,7 @@ const levelLabels: Record<string, string> = {
 };
 
 const capacityOptions = Array.from({ length: 32 }, (_, index) => index + 1);
+const classTitleMaxLength = 40;
 const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthFormatter = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
 const dateFormatter = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric" });
@@ -89,7 +90,14 @@ function EventFields({ session }: { session?: ClassSession }) {
     <>
       <label className="grid gap-2 text-sm font-semibold">
         Title
-        <input name="title" defaultValue={session?.title ?? ""} placeholder="Group Clinic" required className="portal-form-input" />
+        <input
+          name="title"
+          defaultValue={session?.title ?? ""}
+          placeholder="Group Clinic"
+          required
+          maxLength={classTitleMaxLength}
+          className="portal-form-input"
+        />
       </label>
 
       <label className="grid gap-2 text-sm font-semibold">
@@ -274,9 +282,10 @@ export default function ClassCalendarManager({
                         setActiveSessionId(session.id);
                         setVisibleMonth(parseDate(session.session_date));
                       }}
-                      className={`rounded-md px-2 py-1 text-left text-[0.72rem] font-semibold text-white ${session.is_active ? "bg-[var(--ocean)]" : "bg-[var(--muted)]"}`}
+                      className={`min-w-0 max-w-full rounded-md px-2 py-1 text-left text-[0.72rem] font-semibold leading-tight text-white break-words ${session.is_active ? "bg-[var(--ocean)]" : "bg-[var(--muted)]"}`}
                     >
-                      {formatTime(session.start_time)} - {formatTime(session.end_time)} {session.title}
+                      <span className="block">{formatTime(session.start_time)} - {formatTime(session.end_time)}</span>
+                      <span className="block">{session.title}</span>
                     </button>
                   ))}
                   {dayEvents.length > 3 && <span className="text-[0.72rem] text-[color:var(--muted)]">+{dayEvents.length - 3} more</span>}
