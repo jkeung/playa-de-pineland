@@ -1,7 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { createClassSession, deleteClassRegistration, deleteClassSession, updateClassSession } from "@/app/portal/actions";
+import {
+  addExistingClassRegistration,
+  addGuestClassRegistration,
+  createClassSession,
+  deleteClassRegistration,
+  deleteClassSession,
+  updateClassSession,
+} from "@/app/portal/actions";
 
 type ClassSession = {
   id: string;
@@ -18,7 +25,14 @@ type ClassSession = {
 
 type ClassRegistration = {
   id: string;
+  user_id: string | null;
   display_name: string;
+};
+
+type PlayerProfile = {
+  id: string;
+  display_name: string;
+  full_name: string;
 };
 
 const levelLabels: Record<string, string> = {
@@ -124,11 +138,13 @@ function EventFields({ session }: { session?: ClassSession }) {
 export default function ClassCalendarManager({
   sessions,
   registrationsBySession,
+  playerProfiles,
   selectedSessionId,
   error,
 }: {
   sessions: ClassSession[];
   registrationsBySession: Record<string, ClassRegistration[]>;
+  playerProfiles: PlayerProfile[];
   selectedSessionId?: string;
   error?: string;
 }) {
@@ -140,8 +156,22 @@ export default function ClassCalendarManager({
   const [activeSessionId, setActiveSessionId] = useState(selectedSessionId ?? "");
   const [creationNotice, setCreationNotice] = useState<string | null>(null);
 
-  const activeSession = sessions.find((session) => session.id === activeSessionId);
-  const activeRegistrations = activeSession ? registrationsBySession[activeSession.id] ?? [] : [];
+  const activeSession = useMemo(
+    () => sessions.find((session) => session.id === activeSessionId),
+    [sessions, activeSessionId],
+  );
+  const activeRegistrations = useMemo(
+    () => activeSession ? registrationsBySession[activeSession.id] ?? [] : [],
+    [activeSession, registrationsBySession],
+  );
+  const registeredUserIds = useMemo(
+    () => new Set(activeRegistrations.map((registration) => registration.user_id).filter(Boolean)),
+    [activeRegistrations],
+  );
+  const availableProfiles = useMemo(
+    () => playerProfiles.filter((profile) => !registeredUserIds.has(profile.id)),
+    [playerProfiles, registeredUserIds],
+  );
   const eventsByDate = useMemo(() => {
     const map = new Map<string, ClassSession[]>();
     for (const session of sessions) {
@@ -325,6 +355,54 @@ export default function ClassCalendarManager({
                 ) : (
                   <p className="m-0 text-sm text-[color:var(--muted)]">No attendees yet.</p>
                 )}
+
+                <div className="mt-5 grid gap-4 border-t border-[var(--border)] pt-4">
+                  <form action={addExistingClassRegistration.bind(null, activeSession.id)} className="grid gap-2">
+                    <label className="text-sm font-semibold" htmlFor="admin-add-player">
+                      Add existing player
+                    </label>
+                    <div className="flex gap-2 max-sm:flex-col">
+                      <select
+                        id="admin-add-player"
+                        name="user_id"
+                        className="portal-form-input flex-1"
+                        defaultValue=""
+                        disabled={!availableProfiles.length}
+                        required
+                      >
+                        <option value="" disabled>
+                          {availableProfiles.length ? "Choose a player" : "All players are already registered"}
+                        </option>
+                        {availableProfiles.map((profile) => (
+                          <option key={profile.id} value={profile.id}>
+                            {profile.display_name || profile.full_name || "Player"}
+                          </option>
+                        ))}
+                      </select>
+                      <button type="submit" className="btn btn-secondary !py-2 !px-4" disabled={!availableProfiles.length}>
+                        Add
+                      </button>
+                    </div>
+                  </form>
+
+                  <form action={addGuestClassRegistration.bind(null, activeSession.id)} className="grid gap-2">
+                    <label className="text-sm font-semibold" htmlFor="admin-add-guest">
+                      Add guest
+                    </label>
+                    <div className="flex gap-2 max-sm:flex-col">
+                      <input
+                        id="admin-add-guest"
+                        name="guest_name"
+                        className="portal-form-input flex-1"
+                        placeholder="Guest name"
+                        required
+                      />
+                      <button type="submit" className="btn btn-secondary !py-2 !px-4">
+                        Add
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           ) : (
