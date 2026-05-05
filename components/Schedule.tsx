@@ -72,6 +72,9 @@ export default async function Schedule() {
             <p className="m-0 text-[color:var(--muted)] max-w-[640px] leading-[1.7]">
               Members can sign up in the portal. Use the arrows to browse future weeks.
             </p>
+            <p className="m-0 mt-2 text-[0.95rem] font-semibold text-[color:var(--ocean-dark)] dark:text-heading-dark">
+              First class: $20 · Standard class: $30
+            </p>
           </div>
           <Weather />
         </div>
