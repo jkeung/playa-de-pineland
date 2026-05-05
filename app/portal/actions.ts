@@ -483,3 +483,53 @@ export async function deleteClassRegistration(registrationId: string, classSessi
   revalidatePath("/portal/classes");
   redirect(`/portal/classes?selected=${classSessionId}`);
 }
+
+export async function addExistingClassRegistration(classSessionId: string, formData: FormData) {
+  const supabase = await ensureAdmin();
+  const userId = String(formData.get("user_id") ?? "");
+
+  if (!userId) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent("Choose a player to add")}`);
+  }
+
+  const { error } = await supabase
+    .from("class_registrations")
+    .insert({
+      class_session_id: classSessionId,
+      user_id: userId,
+    });
+
+  if (error && !error.message.toLowerCase().includes("duplicate")) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+  redirect(`/portal/classes?selected=${classSessionId}`);
+}
+
+export async function addGuestClassRegistration(classSessionId: string, formData: FormData) {
+  const supabase = await ensureAdmin();
+  const guestName = String(formData.get("guest_name") ?? "").trim();
+
+  if (!guestName) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent("Enter a guest name")}`);
+  }
+
+  const { error } = await supabase
+    .from("class_registrations")
+    .insert({
+      class_session_id: classSessionId,
+      guest_name: guestName,
+    });
+
+  if (error) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/portal/book");
+  revalidatePath("/portal/classes");
+  redirect(`/portal/classes?selected=${classSessionId}`);
+}

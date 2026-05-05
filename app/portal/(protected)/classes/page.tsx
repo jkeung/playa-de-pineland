@@ -29,19 +29,26 @@ export default async function ClassAdminPage({
 
   const { data: registrations } = await supabase
     .from("class_registrations")
-    .select("id,class_session_id,created_at,profiles(display_name)")
+    .select("id,class_session_id,user_id,guest_name,created_at,profiles(display_name)")
     .order("created_at", { ascending: true });
 
-  const registrationsBySession = new Map<string, { id: string; display_name: string }[]>();
+  const { data: playerProfiles } = await supabase
+    .from("profiles")
+    .select("id,display_name,full_name")
+    .order("display_name", { ascending: true });
+
+  const registrationsBySession = new Map<string, { id: string; user_id: string | null; display_name: string }[]>();
   for (const registration of registrations ?? []) {
     const attendeeProfile = (registration as {
+      guest_name?: string | null;
       profiles?: { display_name?: string } | null;
     }).profiles;
 
     const attendeeList = registrationsBySession.get(registration.class_session_id) ?? [];
     attendeeList.push({
       id: registration.id,
-      display_name: attendeeProfile?.display_name || "Player",
+      user_id: registration.user_id,
+      display_name: registration.guest_name || attendeeProfile?.display_name || "Player",
     });
     registrationsBySession.set(registration.class_session_id, attendeeList);
   }
@@ -58,6 +65,7 @@ export default async function ClassAdminPage({
       <ClassCalendarManager
         sessions={sessions ?? []}
         registrationsBySession={Object.fromEntries(registrationsBySession.entries())}
+        playerProfiles={playerProfiles ?? []}
         selectedSessionId={resolvedSearchParams?.selected}
         error={resolvedSearchParams?.error}
       />
