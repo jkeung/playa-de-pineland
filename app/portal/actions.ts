@@ -18,6 +18,7 @@ function getClassSessionPayload(formData: FormData) {
     session_date: sessionDate,
     day_of_week: getDayOfWeek(sessionDate),
     start_time: formData.get("start_time") as string,
+    end_time: formData.get("end_time") as string,
     level: formData.get("level") as string,
     capacity: Number(formData.get("capacity")),
     is_active: formData.get("is_active") === "on",
@@ -30,6 +31,39 @@ function parseTags(value: FormDataEntryValue | null) {
     .map((tag) => tag.trim().toLowerCase())
     .filter(Boolean)
     .filter((tag, index, tags) => tags.indexOf(tag) === index);
+}
+
+async function hasClassSessionConflict(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  sessionDates: string[],
+  startTime: string,
+  endTime: string,
+  excludeSessionId?: string,
+) {
+  let query = supabase
+    .from("class_sessions")
+    .select("id, session_date")
+    .in("session_date", sessionDates)
+    .lt("start_time", endTime)
+    .gt("end_time", startTime);
+
+  if (excludeSessionId) {
+    query = query.neq("id", excludeSessionId);
+  }
+
+  const { data, error } = await query.limit(1);
+
+  if (error) {
+    return { error };
+  }
+
+  return {
+    conflictDate: data?.[0]?.session_date as string | undefined,
+  };
+}
+
+function isInvalidTimeRange(startTime: string, endTime: string) {
+  return endTime <= startTime;
 }
 
 async function ensureAdmin() {
@@ -341,8 +375,22 @@ export async function createClassSession(formData: FormData) {
     redirect("/portal/classes?error=Choose%20at%20least%20one%20date");
   }
 
+  const payload = getClassSessionPayload(formData);
+  if (isInvalidTimeRange(payload.start_time, payload.end_time)) {
+    redirect("/portal/classes?error=End%20time%20must%20be%20after%20start%20time");
+  }
+
+  const conflict = await hasClassSessionConflict(supabase, sessionDates, payload.start_time, payload.end_time);
+  if ("error" in conflict && conflict.error) {
+    redirect(`/portal/classes?error=${encodeURIComponent(conflict.error.message)}`);
+  }
+
+  if (conflict.conflictDate) {
+    redirect(`/portal/classes?error=${encodeURIComponent("That time slot is already booked on one of the selected dates")}`);
+  }
+
   const sessions = sessionDates.map((sessionDate) => ({
-    ...getClassSessionPayload(formData),
+    ...payload,
     session_date: sessionDate,
     day_of_week: getDayOfWeek(sessionDate),
   }));
@@ -362,6 +410,26 @@ export async function createClassSession(formData: FormData) {
 export async function updateClassSession(classSessionId: string, formData: FormData) {
   const supabase = await ensureAdmin();
   const capacity = Number(formData.get("capacity"));
+  const payload = getClassSessionPayload(formData);
+
+  if (isInvalidTimeRange(payload.start_time, payload.end_time)) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent("End time must be after start time")}`);
+  }
+
+  const conflict = await hasClassSessionConflict(
+    supabase,
+    [payload.session_date],
+    payload.start_time,
+    payload.end_time,
+    classSessionId,
+  );
+  if ("error" in conflict && conflict.error) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent(conflict.error.message)}`);
+  }
+
+  if (conflict.conflictDate) {
+    redirect(`/portal/classes?selected=${classSessionId}&error=${encodeURIComponent("That time slot is already booked on this date")}`);
+  }
 
   const { count } = await supabase
     .from("class_registrations")
@@ -374,7 +442,7 @@ export async function updateClassSession(classSessionId: string, formData: FormD
 
   const { error } = await supabase
     .from("class_sessions")
-    .update(getClassSessionPayload(formData))
+    .update(payload)
     .eq("id", classSessionId);
 
   if (error) {

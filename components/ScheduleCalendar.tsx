@@ -9,6 +9,7 @@ type ScheduleSession = {
   description: string;
   date: string;
   startTime: string;
+  endTime: string;
   level: string;
   capacity: number;
   attendees: string[];
@@ -151,7 +152,7 @@ export default function ScheduleCalendar({
                             href={`/portal/book?session=${session.id}`}
                             className={`schedule-event-card block no-underline text-inherit rounded-lg py-2 px-2 schedule-cell--${levelClass}`}
                           >
-                            <span className="block text-[0.72rem] font-bold">{formatStartTime(session.startTime)}</span>
+                            <span className="block text-[0.72rem] font-bold">{formatStartTime(session.startTime)} - {formatStartTime(session.endTime)}</span>
                             <strong className="block text-[0.78rem]">{session.label}</strong>
                             <span className={`text-[0.72rem] opacity-75 schedule-level schedule-level--${levelClass}`}>{session.level}</span>
                             <p className="m-0 mt-1 text-[0.7rem] text-[color:var(--muted)]">

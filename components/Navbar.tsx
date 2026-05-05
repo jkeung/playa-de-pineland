@@ -47,6 +47,7 @@ export default function Navbar() {
           }`}
         >
           <Link href="/#training" onClick={closeMenu} className={linkClass}>Training</Link>
+          <Link href="/group-classes" onClick={closeMenu} className={linkClass}>Classes</Link>
           <Link href="/#experience" onClick={closeMenu} className={linkClass}>Experience</Link>
           <Link href="/contact" onClick={closeMenu} className={linkClass}>Contact</Link>
           <Link href="/find-us" onClick={closeMenu} className={linkClass}>Find Us</Link>
