@@ -11,9 +11,6 @@ const levels = [
     ],
     learn:
       "You're learning the basics of beach doubles — touches are inconsistent, reading your partner and the opposing team is still developing, and moving in sand feels new.",
-    recommended: "Open Play – Beginner, Group Clinics",
-    cta: "Get Started",
-    ctaHref: "#booking",
   },
   {
     tier: "BB",
@@ -27,9 +24,6 @@ const levels = [
     ],
     learn:
       "You and your partner move as a unit — you communicate on defense, split the court effectively, and can run plays off a good pass.",
-    recommended: "Group Clinics",
-    cta: "Level Up",
-    ctaHref: "#booking",
   },
   {
     tier: "A",
@@ -43,9 +37,6 @@ const levels = [
     ],
     learn:
       "You execute plays and read the game well — you use hand signals, adjust your defensive positioning based on the block, and can place shots around defenders.",
-    recommended: "Private Lessons, Group Clinics",
-    cta: "Train",
-    ctaHref: "#booking",
   },
   {
     tier: "AA",
@@ -59,9 +50,6 @@ const levels = [
     ],
     learn:
       "Top-tier amateur beach doubles — you and your partner play as one, with dominant serving, clean side-outs, and the ability to close out tight sets.",
-    recommended: "Private Lessons, Tournaments",
-    cta: "Compete",
-    ctaHref: "#events",
   },
   {
     tier: "Open",
@@ -75,9 +63,6 @@ const levels = [
     ],
     learn:
       "The highest tier — former or current pros, D1 beach athletes, and players who compete at the national or international level. Every touch is intentional.",
-    recommended: "Private Lessons, Tournament Prep",
-    cta: "Go Pro",
-    ctaHref: "#booking",
   },
 ];
 
@@ -119,15 +104,6 @@ export default function Progression() {
                 <p className="m-0 mb-3 text-[color:var(--muted)] text-[0.92rem] leading-[1.7] italic max-sm:text-[0.82rem]">
                   {level.learn}
                 </p>
-                <span className="block text-[0.82rem] font-semibold text-[color:var(--ocean-dark)] mb-4 mt-auto dark:text-[color:var(--heading-dark)]">
-                  Recommended: {level.recommended}
-                </span>
-                <a
-                  className="btn btn-secondary w-full py-[10px] px-[18px] text-[0.9rem]"
-                  href={level.ctaHref}
-                >
-                  {level.cta}
-                </a>
               </div>
             </div>
           ))}
