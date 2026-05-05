@@ -80,7 +80,7 @@ export default function Weather() {
 
   if (!current) {
     return (
-      <div className="inline-flex flex-col gap-[6px] py-[14px] px-[18px] bg-[rgba(248,250,244,0.72)] border border-[rgba(255,255,255,0.36)] backdrop-blur-[14px] rounded-[16px] shadow-[0_8px_20px_rgba(8,57,72,0.06)] mb-2 text-[0.88rem] dark:bg-[rgba(30,35,40,0.72)] dark:border-[rgba(255,255,255,0.08)]">
+      <div className="inline-flex w-full flex-col gap-[6px] py-[14px] px-[18px] bg-[rgba(248,250,244,0.72)] border border-[rgba(255,255,255,0.36)] backdrop-blur-[14px] rounded-[16px] shadow-[0_8px_20px_rgba(8,57,72,0.06)] mb-2 text-[0.88rem] dark:bg-[rgba(30,35,40,0.72)] dark:border-[rgba(255,255,255,0.08)] sm:w-auto">
         <div className="flex items-center gap-2">
           <span className="text-[1.5rem]">🌤️</span>
           <span className="text-[1.4rem] font-extrabold text-[color:var(--ocean-dark)] dark:text-heading-dark">--°F</span>
@@ -91,18 +91,18 @@ export default function Weather() {
   }
 
   return (
-    <div className="inline-flex flex-col gap-[6px] py-[14px] px-[18px] bg-[rgba(248,250,244,0.72)] border border-[rgba(255,255,255,0.36)] backdrop-blur-[14px] rounded-[16px] shadow-[0_8px_20px_rgba(8,57,72,0.06)] mb-2 text-[0.88rem] dark:bg-[rgba(30,35,40,0.72)] dark:border-[rgba(255,255,255,0.08)]">
+    <div className="inline-flex w-full flex-col gap-[6px] py-[14px] px-[18px] bg-[rgba(248,250,244,0.72)] border border-[rgba(255,255,255,0.36)] backdrop-blur-[14px] rounded-[16px] shadow-[0_8px_20px_rgba(8,57,72,0.06)] mb-2 text-[0.88rem] dark:bg-[rgba(30,35,40,0.72)] dark:border-[rgba(255,255,255,0.08)] sm:w-auto">
       <div className="flex items-center gap-2">
         <span className="text-[1.5rem]">{condition.icon}</span>
         <span className="text-[1.4rem] font-extrabold text-[color:var(--ocean-dark)] dark:text-heading-dark">{current.temp}°F</span>
       </div>
-      <div className="flex gap-3 text-[color:var(--muted)] text-[0.82rem]">
+      <div className="flex flex-wrap gap-x-3 gap-y-1 text-[color:var(--muted)] text-[0.82rem]">
         <span>{condition.label}</span>
         <span>💧 {current.humidity}%</span>
         <span>💨 {current.windSpeed} mph</span>
       </div>
       <div className="text-[color:var(--muted)] text-[0.8rem]">📍 Fairfax, VA</div>
-      <div className="flex gap-[2px] mt-[10px] pt-[10px] border-t border-[rgba(8,57,72,0.08)] dark:border-[rgba(255,255,255,0.08)]">
+      <div className="grid grid-cols-4 gap-1 mt-[10px] pt-[10px] border-t border-[rgba(8,57,72,0.08)] dark:border-[rgba(255,255,255,0.08)] sm:flex sm:gap-[2px]">
         {forecast.map((day, i) => {
           const dayCondition = weatherCodes[day.weatherCode] || { icon: "🌤️", label: "Clear" };
           return (

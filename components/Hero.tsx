@@ -1,5 +1,3 @@
-import Weather from "./Weather";
-
 export default function Hero() {
   return (
     <div className="py-[18px]">
@@ -18,17 +16,14 @@ export default function Hero() {
       <div className="flex gap-[14px] flex-wrap mb-7">
         <a
           className="btn btn-primary"
-          href="https://calendly.com/playadepineland/open-play"
-          target="_blank"
+          href="/group-classes"
         >
-          Join Open Play
+          View Classes
         </a>
-        <a className="btn btn-secondary" href="#training">
-          Explore Training
+        <a className="btn btn-secondary" href="/group-classes#class-calendar">
+          View Calendar
         </a>
       </div>
-
-      <Weather />
 
       <div className="grid grid-cols-3 gap-[14px] mt-[30px] max-w-[700px] max-lg:grid-cols-2 max-sm:grid-cols-1">
         <div className="bg-[rgba(248,250,244,0.62)] border border-[rgba(255,255,255,0.35)] rounded-[20px] p-[18px] shadow-[0_12px_28px_rgba(8,57,72,0.08)] dark:bg-[rgba(30,35,40,0.6)] dark:border-[rgba(255,255,255,0.06)]">

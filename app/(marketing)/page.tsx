@@ -5,8 +5,6 @@ import Progression from "@/components/Progression";
 import Experience from "@/components/Experience";
 import Testimonials from "@/components/Testimonials";
 import Coaches from "@/components/Coaches";
-import Gallery from "@/components/Gallery";
-import Events from "@/components/Events";
 import BookingCalendly from "@/components/BookingCalendly";
 import Schedule from "@/components/Schedule";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -26,8 +24,6 @@ export default function Home() {
       <ScrollReveal><Experience /></ScrollReveal>
       {/* <ScrollReveal><Testimonials /></ScrollReveal> */}
       {/* <ScrollReveal><Coaches /></ScrollReveal> */}
-      <ScrollReveal><Gallery /></ScrollReveal>
-      <ScrollReveal><Events /></ScrollReveal>
       <ScrollReveal><Schedule /></ScrollReveal>
       <ScrollReveal><BookingCalendly /></ScrollReveal>
     </>

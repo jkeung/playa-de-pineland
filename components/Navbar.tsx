@@ -22,7 +22,7 @@ export default function Navbar() {
   }, [menuOpen, closeMenu]);
 
   const linkClass =
-    "hover:text-[color:var(--ocean-dark)] dark:hover:text-[#e8e6e1]";
+    "hover:text-[color:var(--ocean-dark)] dark:hover:text-[#e8e6e1] max-md:w-full max-md:rounded-xl max-md:px-3 max-md:py-2.5 max-md:font-bold max-md:text-[color:var(--ocean-dark)] max-md:hover:bg-[rgba(30,107,72,0.08)] max-md:dark:text-heading-dark max-md:dark:hover:bg-[rgba(255,255,255,0.08)]";
 
   return (
     <nav className="sticky top-0 z-20 backdrop-blur-[14px] bg-[rgba(244,247,238,0.62)] border-b border-[rgba(27,77,58,0.08)] dark:bg-[rgba(26,29,33,0.82)] dark:border-[rgba(255,255,255,0.06)]">
@@ -42,7 +42,7 @@ export default function Navbar() {
         )}
 
         <div
-          className={`flex gap-[22px] items-center text-[color:var(--muted)] text-[0.95rem] dark:text-[#9ca3a8] max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0 max-md:w-[260px] max-md:flex-col max-md:items-start max-md:pt-20 max-md:px-7 max-md:pb-7 max-md:gap-[18px] max-md:bg-[rgba(244,247,238,0.96)] max-md:dark:bg-[rgba(26,29,33,0.96)] max-md:backdrop-blur-[18px] max-md:shadow-[-8px_0_30px_rgba(8,57,72,0.12)] max-md:transition-transform max-md:duration-300 max-md:z-[25] max-md:text-[1.05rem] ${
+          className={`flex gap-[22px] items-center text-[color:var(--muted)] text-[0.95rem] dark:text-[#9ca3a8] max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0 max-md:w-[min(320px,86vw)] max-md:flex-col max-md:items-start max-md:pt-20 max-md:px-5 max-md:pb-7 max-md:gap-2 max-md:bg-[#f8faf4] max-md:dark:bg-[#1a1d21] max-md:border-l max-md:border-[rgba(8,57,72,0.1)] max-md:dark:border-[rgba(255,255,255,0.08)] max-md:shadow-[-14px_0_36px_rgba(8,57,72,0.24)] max-md:transition-transform max-md:duration-300 max-md:z-[25] max-md:text-[1.08rem] ${
             menuOpen ? "max-md:translate-x-0" : "max-md:translate-x-full"
           }`}
         >
@@ -53,18 +53,18 @@ export default function Navbar() {
           <Link href="/faq" onClick={closeMenu} className={linkClass}>FAQ</Link>
           <Link href="/rules" onClick={closeMenu} className={linkClass}>Rules</Link>
           <Link
-            className="btn btn-primary !hidden max-md:!inline-flex"
-            href="/#booking"
+            className="btn btn-primary !hidden max-md:!inline-flex max-md:!mt-3 max-md:!w-full"
+            href="/portal/book"
             onClick={closeMenu}
           >
-            Book a Session
+            Join a Class
           </Link>
         </div>
         <div className="flex items-center gap-3 max-md:hidden">
           <UserMenu />
           <ThemeToggle />
-          <Link className="btn btn-primary" href="/#booking">
-            Book a Session
+          <Link className="btn btn-primary" href="/portal/book">
+            Join a Class
           </Link>
         </div>
         <button

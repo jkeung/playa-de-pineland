@@ -12,6 +12,7 @@ const classFormats = [
   {
     name: "For Beginners",
     tag: "Beginner",
+    levelClass: "beginner",
     headline: "Build your foundation and improve fundamentals.",
     description:
       "Are you new to sand volleyball, or looking to build a rock-solid foundation? This is where your journey to competitive play begins.",
@@ -50,10 +51,14 @@ const classFormats = [
       "Setup: Drills utilize 2-4 courts or designated areas for concurrent small group work, maximizing your practice time.",
       "Goals: By the end, you will be consistently performing core skills, understanding basic doubles strategy, and ready to advance your game.",
     ],
+    quickFit: "New players or players rebuilding core beach volleyball fundamentals.",
+    quickFocus: "Passing, setting, serving, movement, communication, and controlled offensive flow.",
+    quickGroup: "Ideal for 12-16 players.",
   },
   {
     name: "For Intermediate Players",
     tag: "Intermediate",
+    levelClass: "intermediate",
     headline: "Refine, strategize, dominate.",
     description:
       "You have the fundamentals down. Now it is time to elevate your strategy, precision, and court dominance.",
@@ -96,6 +101,9 @@ const classFormats = [
       "Setup: Utilizes 2 full courts or designated half-courts, enabling dynamic, role-specific drills and higher intensity play.",
       "Goals: By the end, you will be executing complex plays with precision, consistently out-strategizing opponents, and playing cohesive, high-level sand doubles.",
     ],
+    quickFit: "Players with solid fundamentals who are ready for faster, more strategic doubles.",
+    quickFocus: "Pressure reps, advanced ball control, attacking range, defense, blocking, and transition offense.",
+    quickGroup: "Ideal for 8-12 players.",
   },
 ];
 
@@ -150,6 +158,54 @@ export default function GroupClassesPage() {
         </div>
       </section>
 
+      <section className="pt-[12px] pb-[22px]">
+        <div className="container">
+          <div className="grid grid-cols-2 gap-[18px] max-md:grid-cols-1">
+            {classFormats.map((format) => (
+              <article className="card" key={`${format.name}-summary`}>
+                <div className={`mb-5 h-1.5 rounded-full schedule-cell--${format.levelClass}`} />
+                <div className="flex items-start justify-between gap-4 mb-4 max-sm:flex-col">
+                  <div>
+                    <span className={`schedule-level schedule-level--${format.levelClass} !mb-3 !mt-0 !text-[0.72rem]`}>
+                      {format.tag}
+                    </span>
+                    <h2 className="m-0 text-[1.28rem] text-[color:var(--ocean-dark)] dark:text-heading-dark">
+                      {format.headline}
+                    </h2>
+                  </div>
+                </div>
+                <dl className="m-0 grid gap-3">
+                  <div>
+                    <dt className="text-[0.78rem] font-extrabold uppercase tracking-[0.08em] text-[color:var(--ocean-dark)] dark:text-heading-dark">
+                      Best for
+                    </dt>
+                    <dd className="m-0 mt-1 text-[0.94rem] leading-[1.65] text-[color:var(--muted)]">
+                      {format.quickFit}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.78rem] font-extrabold uppercase tracking-[0.08em] text-[color:var(--ocean-dark)] dark:text-heading-dark">
+                      Focus
+                    </dt>
+                    <dd className="m-0 mt-1 text-[0.94rem] leading-[1.65] text-[color:var(--muted)]">
+                      {format.quickFocus}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.78rem] font-extrabold uppercase tracking-[0.08em] text-[color:var(--ocean-dark)] dark:text-heading-dark">
+                      Group size
+                    </dt>
+                    <dd className="m-0 mt-1 text-[0.94rem] leading-[1.65] text-[color:var(--muted)]">
+                      {format.quickGroup}
+                    </dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="pt-[34px] pb-[22px]">
         <div className="container">
           <div className="mb-6">
@@ -165,9 +221,10 @@ export default function GroupClassesPage() {
           <div className="grid gap-[18px]">
             {classFormats.map((format) => (
               <article className="card" key={format.name}>
+                <div className={`mb-5 h-1.5 rounded-full schedule-cell--${format.levelClass}`} />
                 <div className="grid grid-cols-[0.38fr_0.62fr] gap-7 items-start max-lg:grid-cols-1">
                   <div>
-                    <span className="mb-4 inline-flex min-h-12 items-center justify-center rounded-[16px] bg-[rgba(30,107,72,0.1)] px-4 py-3 text-[0.92rem] font-extrabold text-[color:var(--ocean-dark)] dark:bg-[rgba(255,255,255,0.07)] dark:text-heading-dark">
+                    <span className={`schedule-level schedule-level--${format.levelClass} !mb-4 !mt-0 !text-[0.72rem]`}>
                       {format.tag}
                     </span>
                     <h3 className="m-0 mb-[8px] text-[color:var(--ocean-dark)] text-[1.35rem] dark:text-heading-dark">
