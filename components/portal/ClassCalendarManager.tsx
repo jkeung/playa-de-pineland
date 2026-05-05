@@ -273,21 +273,30 @@ export default function ClassCalendarManager({
                   <span className="max-sm:hidden">{day.getDate()}</span>
                 </span>
                 <span className="mt-2 grid gap-1">
-                  {dayEvents.slice(0, 3).map((session) => (
-                    <button
-                      key={session.id}
-                      type="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        setActiveSessionId(session.id);
-                        setVisibleMonth(parseDate(session.session_date));
-                      }}
-                      className={`min-w-0 max-w-full rounded-md px-2 py-1 text-left text-[0.72rem] font-semibold leading-tight text-white break-words ${session.is_active ? "bg-[var(--ocean)]" : "bg-[var(--muted)]"}`}
-                    >
-                      <span className="block">{formatTime(session.start_time)} - {formatTime(session.end_time)}</span>
-                      <span className="block">{session.title}</span>
-                    </button>
-                  ))}
+                  {dayEvents.slice(0, 3).map((session) => {
+                    const timeRange = `${formatTime(session.start_time)} - ${formatTime(session.end_time)}`;
+
+                    return (
+                      <button
+                        key={session.id}
+                        type="button"
+                        title={`${timeRange} ${session.title}`}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setActiveSessionId(session.id);
+                          setVisibleMonth(parseDate(session.session_date));
+                        }}
+                        className={`grid w-full min-w-0 gap-0.5 rounded-md px-2 py-1.5 text-left text-white shadow-sm transition hover:brightness-95 ${session.is_active ? "bg-[var(--ocean)]" : "bg-[var(--muted)]"}`}
+                      >
+                        <span className="block truncate whitespace-nowrap text-[0.65rem] font-bold leading-none opacity-90">
+                          {timeRange}
+                        </span>
+                        <span className="block truncate text-[0.76rem] font-extrabold leading-tight">
+                          {session.title}
+                        </span>
+                      </button>
+                    );
+                  })}
                   {dayEvents.length > 3 && <span className="text-[0.72rem] text-[color:var(--muted)]">+{dayEvents.length - 3} more</span>}
                 </span>
               </div>
