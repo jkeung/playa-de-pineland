@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
+const CLASS_SESSION_TITLE_MAX_LENGTH = 40;
+
 function getDayOfWeek(date: string) {
   return new Date(`${date}T12:00:00`).getDay();
 }
@@ -13,7 +15,7 @@ function getClassSessionPayload(formData: FormData) {
   const sessionDate = formData.get("session_date") as string;
 
   return {
-    title: formData.get("title") as string,
+    title: String(formData.get("title") ?? "").trim().slice(0, CLASS_SESSION_TITLE_MAX_LENGTH),
     description: (formData.get("description") as string) || "",
     session_date: sessionDate,
     day_of_week: getDayOfWeek(sessionDate),

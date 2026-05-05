@@ -4,28 +4,36 @@ import { useState } from "react";
 
 const faqs = [
   {
-    q: "How do I book a session?",
-    a: "You can book directly through our website by clicking the \"Book a Session\" button, or send us a message through the contact form. We'll confirm your slot within a few hours.",
+    q: "How do I sign up for a class?",
+    a: "Create an account or log in through the portal, then choose an active class from the class calendar. Once you sign up, your name appears on the class roster.",
   },
   {
-    q: "What skill level do I need?",
-    a: "All levels are welcome! We offer sessions for complete beginners through competitive players. Our coaches tailor each session to your experience level.",
+    q: "What class levels do you offer?",
+    a: "Current group classes are beginner and intermediate. Beginner classes focus on fundamentals like passing, setting, serving, movement, and communication. Intermediate classes are for players with solid fundamentals who are ready for faster, more strategic doubles.",
+  },
+  {
+    q: "How much do group classes cost?",
+    a: "Your first class is $20. Standard group classes are $30 while we continue building the Playa de Pineland community.",
+  },
+  {
+    q: "Where are classes held?",
+    a: "Classes are held on a private backyard sand court on Pineland Street in Fairfax, VA. The exact address is shared after your booking is confirmed.",
   },
   {
     q: "What should I bring?",
-    a: "Just bring yourself, water, and sunscreen. We provide balls and all the gear you need. Comfortable athletic wear and shoes you don't mind getting sandy are recommended.",
+    a: "Bring water, sunscreen, and athletic clothes that can get sandy. Volleyballs and class equipment are provided.",
   },
   {
     q: "How large are the groups?",
-    a: "Group sessions are capped at 8 players to ensure personal attention. Private lessons are one-on-one or up to 4 players if you bring friends.",
+    a: "Beginner classes are designed for about 12-16 players with plenty of reps and small-group work. Intermediate classes are designed for about 8-12 players so the pace, 2v2 drills, and coaching attention stay focused.",
   },
   {
-    q: "Do you set up courts for events?",
-    a: "Absolutely! We host corporate outings, birthday parties, and tournaments. Contact us for custom event packages and pricing.",
+    q: "Do I need beach volleyball experience?",
+    a: "No. Beginner classes are built for newer sand players or players who want to rebuild strong fundamentals. If you already have reliable ball control, serving, and court coverage, intermediate may be the better fit.",
   },
   {
-    q: "How much does it cost?",
-    a: "Drop-in sessions start at $25 per person. Group clinics and private lessons vary — check our booking page for current rates and package deals.",
+    q: "Do you offer private coaching?",
+    a: "Yes. Private coaching is available for players who want more personalized work on fundamentals, movement, ball control, and confidence on sand. Send a message through the contact page for scheduling questions.",
   },
 ];
 
