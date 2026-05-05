@@ -160,6 +160,16 @@ export default function GroupClassesPage() {
 
       <section className="pt-[12px] pb-[22px]">
         <div className="container">
+          <div className="mb-[18px] rounded-[22px] border border-[rgba(255,138,91,0.22)] bg-[linear-gradient(135deg,rgba(255,138,91,0.12),rgba(30,107,72,0.08))] p-5 shadow-[0_10px_24px_rgba(8,57,72,0.06)] dark:border-[rgba(255,138,91,0.18)] dark:bg-[linear-gradient(135deg,rgba(255,138,91,0.08),rgba(30,107,72,0.08))]">
+            <h2 className="m-0 mb-2 text-[1.18rem] text-[color:var(--ocean-dark)] dark:text-heading-dark">
+              Intro pricing
+            </h2>
+            <p className="m-0 text-[color:var(--muted)] leading-[1.7]">
+              First class is $20. Standard group classes are $30 as we build the
+              Playa de Pineland community.
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 gap-[18px] max-md:grid-cols-1">
             {classFormats.map((format) => (
               <article className="card" key={`${format.name}-summary`}>
